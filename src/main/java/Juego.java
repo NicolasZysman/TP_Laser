@@ -1,15 +1,15 @@
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Juego {
-    private ArrayList<Nivel> niveles;
-    public Juego() {
-        ArrayList<Nivel> niveles = new ArrayList<>();
-        int nivelActual;
-        System.out.println("Pepe");
-    }
-//    private void iniciarNivel(int nivelrecibidojavaFX){
-//        nivelActual = nivelrecibidojavaFX;
-//    }
+    public ArrayList<Nivel> niveles;
 
+    public Juego() {
+        this.niveles = new ArrayList<Nivel>();
+    }
+
+    public void crearNivel(File nivel) {
+        Nivel nivel_actual = new Nivel(nivel);
+        niveles.add(nivel_actual);
+    }
 }
