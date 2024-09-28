@@ -7,6 +7,13 @@ public class Nivel {
 
     public Nivel(File informacion) {
         this.archivo = informacion;
+        int[] fila_y_columna = obtenerFilasColumnas(archivo);
+        int fila = fila_y_columna[0];
+        int columna = fila_y_columna[1];
+        this.grilla = new Grilla(fila, columna);
+    }
+
+    private int[] obtenerFilasColumnas(File archivo) {
         ClassLoader classLoader = getClass().getClassLoader();
 
         int fila = 0;
@@ -24,9 +31,9 @@ public class Nivel {
             e.printStackTrace();
         }
 
-        fila *= 2;
-        columna *= 2;
+        fila = (fila * 2) + 1;
+        columna = (columna * 2) + 1;
 
-        this.grilla = new Grilla(fila, columna);
+        return new int[]{fila, columna};
     }
 }
