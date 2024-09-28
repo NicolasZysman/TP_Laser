@@ -5,8 +5,8 @@ public class Nivel {
     private File archivo;
     public Grilla grilla;
 
-    public Nivel(File informacion) {
-        this.archivo = informacion;
+    public Nivel(File info) {
+        this.archivo = info;
         ClassLoader classLoader = getClass().getClassLoader();
 
         int fila = 0;
@@ -28,5 +28,6 @@ public class Nivel {
         columna *= 2;
 
         this.grilla = new Grilla(fila, columna);
+        this.grilla.mostrarMatriz();
     }
 }
