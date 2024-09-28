@@ -4,13 +4,13 @@ public class Grilla {
     public Grilla(int fila, int columna) {
         this.matriz = new Celda[columna][fila];
 //        System.out.printf("fila: %d columna: %d", fila, columna);
-        inicializarMatriz();
+        inicializarMatriz(fila, columna);
     }
 
-    private void inicializarMatriz() {
+    private void inicializarMatriz(int fila, int columna) {
 
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
+        for (int i = 0; i < columna; i++) {
+            for (int j = 0; j < fila; j++) {
                 matriz[i][j] = new Celda('.'); //hay que mandar el tipo de bloque aca
             }
         }
