@@ -2,7 +2,26 @@ public class Grilla {
     private Celda[][] matriz;
 
     public Grilla(int fila, int columna) {
-        this.matriz = new Celda[fila][columna];
-        System.out.printf("fila: %d columna: %d", fila, columna);
+        this.matriz = new Celda[columna][fila];
+//        System.out.printf("fila: %d columna: %d", fila, columna);
+        inicializarMatriz(fila, columna);
+    }
+
+    private void inicializarMatriz(int fila, int columna) {
+
+        for (int i = 0; i < columna; i++) {
+            for (int j = 0; j < fila; j++) {
+                matriz[i][j] = new Celda('.'); //hay que mandar el tipo de bloque aca
+            }
+        }
+    }
+
+    public void mostrarMatriz() {
+        for (Celda[] fila : matriz) {
+            for (Celda celda : fila) {
+                System.out.print(celda + " ");
+            }
+            System.out.println();
+        }
     }
 }
