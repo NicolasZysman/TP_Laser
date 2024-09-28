@@ -4,10 +4,10 @@ public class Celda {
     public Celda(char tipoBloque) {
         switch (tipoBloque) {
             case 'F':
-                //this.bloque = new BloqueFijo();
+                //this.bloque = new BloqueOpacoFijo();
                 break;
             case 'B':
-                //this.bloque = new BloqueMovil();
+                //this.bloque = new BloqueOpacoMovil();
                 break;
             case 'R':
                 //this.bloque = new BloqueEspejo();
