@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 public class Grilla {
     private Celda[][] matriz;
 
-    public Grilla(int fila, int columna) {
+    public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.matriz = new Celda[columna][fila];
-//        System.out.printf("fila: %d columna: %d", fila, columna);
+        System.out.printf("fila: %d columna: %d", fila, columna);
         inicializarMatriz(fila, columna);
     }
 
