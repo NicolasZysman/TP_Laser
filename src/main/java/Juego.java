@@ -1,17 +1,15 @@
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Juego {
-    public static void Main(String[] args) {
-        List<Nivel> niveles = new ArrayList<>();
-        int nivelActual;
+    public ArrayList<Nivel> niveles;
+
+    public Juego() {
+        this.niveles = new ArrayList<Nivel>();
     }
 
-    private void iniciarNivel(int nivelActual){
-        //recibe el nivel actual de vista y lo setea
-        //cambia el estado de juego si el nivel era 0?
+    public void crearNivel(File nivel) {
+        Nivel nivel_actual = new Nivel(nivel);
+        niveles.add(nivel_actual);
     }
-
-
-
 }
