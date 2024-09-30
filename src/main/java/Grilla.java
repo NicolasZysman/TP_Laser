@@ -18,6 +18,10 @@ public class Grilla {
         }
     }
 
+    public Celda getCelda(int x, int y) { return matriz[x][y]; }
+
+    public void crearLaser() {}
+
     public void mostrarMatriz() {
         for (Celda[] fila : matriz) {
             for (Celda celda : fila) {
