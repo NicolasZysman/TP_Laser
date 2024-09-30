@@ -12,4 +12,8 @@ public class Juego {
         Nivel nivel_actual = new Nivel(nivel);
         niveles.add(nivel_actual);
     }
+
+    public void moverBloque() {}
+
+    public boolean nivelTermiando() { return false; }
 }
