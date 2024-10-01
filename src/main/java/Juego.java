@@ -8,8 +8,8 @@ public class Juego {
         this.niveles = new ArrayList<Nivel>();
     }
 
-    public void crearNivel(File nivel) {
-        Nivel nivel_actual = new Nivel(nivel);
+    public void crearNivel(File informacion) {
+        Nivel nivel_actual = new Nivel(informacion);
         niveles.add(nivel_actual);
     }
 
