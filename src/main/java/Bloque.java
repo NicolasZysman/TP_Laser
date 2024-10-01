@@ -1,4 +1,4 @@
 public abstract class Bloque {
 
-    public abstract void interactuarConLaser();
+    public abstract int[] interactuarConLaser(Laser laser);
 }

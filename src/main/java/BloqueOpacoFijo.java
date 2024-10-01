@@ -1,7 +1,9 @@
 public class BloqueOpacoFijo extends Bloque {
 
     @Override
-    public void interactuarConLaser() {
+    public int[] interactuarConLaser(Laser laser) {
         System.out.println("BloqueOpacoFijo");
+        int[] nada = {0};
+        return nada;
     };
 }

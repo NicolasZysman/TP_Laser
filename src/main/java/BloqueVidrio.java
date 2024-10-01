@@ -1,7 +1,9 @@
 public class BloqueVidrio extends Bloque {
 
     @Override
-    public void interactuarConLaser() {
+    public int[] interactuarConLaser(Laser laser) {
         System.out.println("BloqueVidrio");
+        int[] nada = {0};
+        return nada;
     };
 }
