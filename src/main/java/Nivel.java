@@ -12,8 +12,6 @@ public class Nivel {
         int filas = fila_y_columna[0];
         int columnas = fila_y_columna[1];
         ArrayList<String> posiciones = getPosiciones(lineas, filas);
-        for (String posicion: posiciones)
-            System.out.println(posicion);
         this.grilla = new Grilla(lineas, posiciones, filas, columnas);
     }
 
