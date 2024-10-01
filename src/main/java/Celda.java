@@ -27,6 +27,9 @@ public class Celda {
             case '.':
                 this.bloque = null; // Celda vacía
                 break;
+            case 'E':
+                this.bloque = null;
+                break;
             default:
                 this.bloque = null;
                 // espacio vacio

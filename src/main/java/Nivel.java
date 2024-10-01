@@ -8,13 +8,10 @@ public class Nivel {
 
     public Nivel(File informacion) {
         ArrayList<String> lineas = getLineas(informacion);
-
-        ArrayList<String> posiciones = getPosiciones(lineas);
-
         int[] fila_y_columna = getFilasColumnas(lineas);
-        int filas = (fila_y_columna[0] * 2) + 1;
-        int columnas = (fila_y_columna[1] * 2) + 1;
-
+        int filas = fila_y_columna[0];
+        int columnas = fila_y_columna[1];
+        ArrayList<String> posiciones = getPosiciones(lineas, filas);
         this.grilla = new Grilla(lineas, posiciones, filas, columnas);
     }
 
@@ -55,20 +52,13 @@ public class Nivel {
         return new int[]{fila, columna};
     }
 
-    private ArrayList<String> getPosiciones(ArrayList<String> lineas) {
+    private ArrayList<String> getPosiciones(ArrayList<String> lineas, int filas) {
         ArrayList<String> posiciones = new ArrayList<>();
-        int tamaño = lineas.size();
 
-        for (int i = tamaño-1; i >= 0; i--) {
-            String linea = lineas.get(i);
+        posiciones.addAll(lineas.subList(filas, lineas.size()));
 
-            if (linea.startsWith("E") || linea.startsWith("G")) {
-                posiciones.add(linea);
-                lineas.remove(i);
-            }
-        }
+        lineas.subList(filas, lineas.size()).clear();
 
-        Collections.reverse(posiciones);
         return posiciones;
     }
 
