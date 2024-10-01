@@ -5,15 +5,19 @@ public class Grilla {
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.matriz = new Celda[columna][fila];
-        System.out.printf("fila: %d columna: %d", fila, columna);
-        inicializarMatriz(fila, columna);
+        inicializarMatriz(lineas, fila, columna);
+        for (String linea : lineas) {
+            System.out.println(linea);
+        }
     }
 
-    private void inicializarMatriz(int fila, int columna) {
+    private void inicializarMatriz(ArrayList<String> lineas, int fila, int columna) {
 
         for (int i = 0; i < columna; i++) {
+            String lineaActual = lineas.get(i);
             for (int j = 0; j < fila; j++) {
-                matriz[i][j] = new Celda('.'); //hay que mandar el tipo de bloque aca
+                char tipoBloque = lineaActual.charAt(j);
+                matriz[i][j] = new Celda(tipoBloque); //hay que mandar el tipo de bloque aca
             }
         }
     }
