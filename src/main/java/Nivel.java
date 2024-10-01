@@ -71,4 +71,6 @@ public class Nivel {
         Collections.reverse(posiciones);
         return posiciones;
     }
+
+    public void reset() {}
 }
