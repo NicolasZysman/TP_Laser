@@ -8,11 +8,12 @@ public class Grilla {
         columna = (columna * 2) + 1;
         this.matriz = new Celda[fila][columna];
         //System.out.printf("fila: %d columna: %d", fila, columna);
-        inicializarMatriz(lineas, fila, columna);
+        inicializarMatriz(lineas, posiciones, fila, columna);
+//        agregarEmisorObjetivo(posiciones);
         printearMatriz(fila, columna);
     }
 
-    private void inicializarMatriz(ArrayList<String> lineas, int fila, int columna) {
+    private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
 
         int indice_lineas = 0;
         int indice_caracter = 0;
@@ -41,9 +42,21 @@ public class Grilla {
                     }
 
                 } else {
-                    matriz[i][j] = new Celda('.');
+                    matriz[i][j] = new Celda('.'); // Celda vacía por defecto
                 }
             }
+        }
+        for (String posicion : posiciones) {
+            String[] partes = posicion.split(" ");
+            char tipo = partes[0].charAt(0);
+            int y = Integer.parseInt(partes[1]);
+            int x = Integer.parseInt(partes[2]);
+
+            System.out.println(posicion);
+
+            System.out.println("x: " + x + ", y: " + y);
+
+            matriz[x][y] = new Celda(tipo);
         }
     }
 
