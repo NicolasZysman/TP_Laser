@@ -1,24 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
 public class Nivel {
-    private File archivo;
     public Grilla grilla;
 
     public Nivel(File informacion) {
-        this.archivo = informacion;
-        ArrayList<String> lineas = getLineas(archivo);
-        //get direccion
+        ArrayList<String> lineas = getLineas(informacion);
+
+        ArrayList<String> posiciones = getPosiciones(lineas);
+
         int[] fila_y_columna = getFilasColumnas(lineas);
         int filas = (fila_y_columna[0] * 2) + 1;
         int columnas = (fila_y_columna[1] * 2) + 1;
-        ArrayList<String> posiciones = getPosiciones(lineas, filas);
-        for (String elemento : posiciones) {
-            System.out.println(elemento);
-        }
+
         this.grilla = new Grilla(lineas, posiciones, filas, columnas);
     }
 
@@ -51,21 +47,25 @@ public class Nivel {
             }
 
             if (elemento.length() > fila) {
-                fila = elemento.length();
+                columna = elemento.length();
             }
-            columna++;
+            fila++;
         }
 
         return new int[]{fila, columna};
     }
 
-    private ArrayList<String> getPosiciones(ArrayList<String> lineas, int fila) {
+    private ArrayList<String> getPosiciones(ArrayList<String> lineas) {
         ArrayList<String> posiciones = new ArrayList<>();
+        int tamaño = lineas.size();
 
-        for (int i = fila-1; i != fila / 2; i--) {
+        for (int i = tamaño-1; i >= 0; i--) {
             String linea = lineas.get(i);
-            posiciones.add(linea);
-            lineas.remove(i);
+
+            if (linea.startsWith("E") || linea.startsWith("G")) {
+                posiciones.add(linea);
+                lineas.remove(i);
+            }
         }
 
         Collections.reverse(posiciones);

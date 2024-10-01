@@ -1,7 +1,9 @@
 public class Celda {
     private Bloque bloque;
+    private char identificador;
 
     public Celda(char tipoBloque) {
+        this.identificador = tipoBloque;
         switch (tipoBloque) {
             case 'F':
                 //this.bloque = new BloqueOpacoFijo();
@@ -22,8 +24,13 @@ public class Celda {
                 this.bloque = null; // Celda vacía
                 break;
             default:
+                this.bloque = null;
                 // espacio vacio
         }
+    }
+
+    public char getIdentificador() {
+        return this.identificador;
     }
 
 
