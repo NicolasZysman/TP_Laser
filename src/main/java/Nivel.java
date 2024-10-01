@@ -1,21 +1,19 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
 public class Nivel {
-    private File archivo;
     public Grilla grilla;
 
     public Nivel(File informacion) {
-        this.archivo = informacion;
-        ArrayList<String> lineas = getLineas(archivo);
-        //get direccion
+        ArrayList<String> lineas = getLineas(informacion);
         int[] fila_y_columna = getFilasColumnas(lineas);
         int filas = fila_y_columna[0];
         int columnas = fila_y_columna[1];
-        ArrayList<String> posiciones = getPosiciones(lineas, columnas);
+        ArrayList<String> posiciones = getPosiciones(lineas, filas);
+        for (String posicion: posiciones)
+            System.out.println(posicion);
         this.grilla = new Grilla(lineas, posiciones, filas, columnas);
     }
 
@@ -48,20 +46,20 @@ public class Nivel {
             }
 
             if (elemento.length() > fila) {
-                fila = elemento.length();
+                columna = elemento.length();
             }
-            columna++;
+            fila++;
         }
 
         return new int[]{fila, columna};
     }
 
-    private ArrayList<String> getPosiciones(ArrayList<String> lineas, int columna) {
+    private ArrayList<String> getPosiciones(ArrayList<String> lineas, int filas) {
         ArrayList<String> posiciones = new ArrayList<>();
 
-        posiciones.addAll(lineas.subList(columna, lineas.size()));
+        posiciones.addAll(lineas.subList(filas, lineas.size()));
 
-        lineas.subList(columna, lineas.size()).clear();
+        lineas.subList(filas, lineas.size()).clear();
 
         return posiciones;
     }
