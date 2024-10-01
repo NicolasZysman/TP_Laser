@@ -3,6 +3,8 @@ public class Celda {
     private char identificador;
     private boolean esEmisor;
     private boolean esObjetivo;
+    private int x;
+    private int y;
 
     public Celda(char tipoBloque) {
         this.identificador = tipoBloque;
@@ -31,12 +33,16 @@ public class Celda {
         }
     }
 
+    public int[] getPosicion() {
+        return new int[] {x, y};
+    }
+
     public char getIdentificador() {
         return this.identificador;
     }
 
-    public void pepe() {
-        this.bloque.interactuarConLaser();
+    public int[] interactuar(Laser laser) {
+        return this.bloque.interactuarConLaser(laser);
     }
 
     @Override
