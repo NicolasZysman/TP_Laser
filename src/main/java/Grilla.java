@@ -4,6 +4,8 @@ public class Grilla {
     private Celda[][] matriz;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
+        fila = (fila * 2) + 1;
+        columna = (columna * 2) + 1;
         this.matriz = new Celda[fila][columna];
         //System.out.printf("fila: %d columna: %d", fila, columna);
         inicializarMatriz(lineas, fila, columna);
