@@ -1,9 +1,9 @@
 public class BloqueCristal extends Bloque {
 
     @Override
-    public int[] interactuarConLaser(Laser laser) {
+    public String[] interactuarConLaser(Laser laser) {
         System.out.println("BloqueCristal");
-        int[] nada = {0};
+        String[] nada = {""};
         return nada;
     };
 }

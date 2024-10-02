@@ -1,19 +1,26 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Grilla {
+    private int fila;
+    private int columna;
     private Celda[][] matriz;
+    private int[] inicio;
+    private ArrayList<int[]> finales;
+    private LinkedList<Laser> laser;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
-        fila = (fila * 2) + 1;
-        columna = (columna * 2) + 1;
-        this.matriz = new Celda[fila][columna];
+        this.fila = (fila * 2) + 1;
+        this.columna = (columna * 2) + 1;
+        this.matriz = new Celda[this.fila][this.columna];
         //System.out.printf("fila: %d columna: %d", fila, columna);
-        inicializarMatriz(lineas, posiciones, fila, columna);
-//        agregarEmisorObjetivo(posiciones);
-        printearMatriz(fila, columna);
+        inicializarMatriz(lineas, posiciones);
+        String direccion = agregarEmisorObjetivo(posiciones);
+        printearMatriz();
+        crearLaser(inicio[0], inicio[1], direccion);
     }
 
-    private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
+    private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones) {
 
         int indice_lineas = 0;
         int indice_caracter = 0;
@@ -46,23 +53,26 @@ public class Grilla {
                 }
             }
         }
-        for (String posicion : posiciones) {
-            String[] partes = posicion.split(" ");
-            char tipo = partes[0].charAt(0);
-            int y = Integer.parseInt(partes[1]);
-            int x = Integer.parseInt(partes[2]);
-
-            System.out.println(posicion);
-
-            System.out.println("x: " + x + ", y: " + y);
-
-            matriz[x][y] = new Celda(tipo);
-        }
     }
 
     public Celda getCelda(int x, int y) { return matriz[x][y]; }
 
-    public void crearLaser() {}
+    public void crearLaser(int x, int y, String direccion) {
+        if (x >= fila || y >= columna) {
+            return;
+        }
+
+        Laser nuevo_laser = new Laser(new int[] {x, y}, direccion, this);
+        String nueva_dirreccion = nuevo_laser.verificarBloque();
+
+        if (nueva_dirreccion.isEmpty()) {
+            return;
+        }
+
+        laser.add(nuevo_laser);
+        int[] posicion_final = nuevo_laser.getPosicionFinal();
+        crearLaser(posicion_final[0], posicion_final[1], nueva_dirreccion);
+    }
 
     public void mostrarMatriz() {
         for (Celda[] fila : matriz) {
@@ -73,7 +83,7 @@ public class Grilla {
         }
     }
 
-    private void printearMatriz(int fila, int columna) {
+    private void printearMatriz() {
         for (int i=0; i < fila; i++) {
             for (int j=0; j < columna; j++) {
                 Celda elemento = matriz[i][j];
@@ -81,5 +91,30 @@ public class Grilla {
             }
             System.out.print("\n");
         }
+    }
+
+    private String agregarEmisorObjetivo(ArrayList<String> posiciones) {
+        String dirreccion = "";
+        for (String posicion : posiciones) {
+            String[] partes = posicion.split(" ");
+            char tipo = partes[0].charAt(0);
+            int y = Integer.parseInt(partes[1]);
+            int x = Integer.parseInt(partes[2]);
+
+            if (tipo == 'E') {
+                this.inicio = new int[]{x, y};
+                this.finales = new ArrayList<int[]>();
+                dirreccion = partes[3];
+            } else {
+                finales.add(new int[] {x, y});
+            }
+
+            System.out.println(posicion);
+
+            System.out.println("x: " + x + ", y: " + y);
+
+            matriz[x][y] = new Celda(tipo);
+        }
+        return dirreccion;
     }
 }

@@ -44,7 +44,7 @@ public class Celda {
         return this.identificador;
     }
 
-    public int[] interactuar(Laser laser) {
+    public String[] interactuar(Laser laser) {
         return this.bloque.interactuarConLaser(laser);
     }
 
