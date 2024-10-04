@@ -3,8 +3,7 @@ public class Celda {
     private char identificador;
     private boolean esEmisor;
     private boolean esObjetivo;
-    private int x;
-    private int y;
+    private boolean bloqueVacio;
 
     public Celda(char tipoBloque) {
         this.identificador = tipoBloque;
@@ -25,31 +24,19 @@ public class Celda {
                 this.bloque = new BloqueCristal();
                 break;
             case '.':
-                this.bloque = null; // Celda vacía
-                break;
-            case 'E':
-                this.bloque = null;
+                this.bloque = new BloqueNormal(); // Celda vacía
                 break;
             default:
-                this.bloque = null;
+                this.bloque = new BloqueNormal();
                 // espacio vacio
         }
-    }
-
-    public int[] getPosicion() {
-        return new int[] {x, y};
     }
 
     public char getIdentificador() {
         return this.identificador;
     }
 
-    public String[] interactuar(Laser laser) {
-        return this.bloque.interactuarConLaser(laser);
-    }
-
-    @Override
-    public String toString() {
-        return bloque != null ? bloque.toString() : ".";
+    public String[] interactuar(int[] posicion_inicial, String direccion) {
+        return this.bloque.interactuarConLaser(posicion_inicial, direccion);
     }
 }

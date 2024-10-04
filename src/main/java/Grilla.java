@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 public class Grilla {
     private int fila;
@@ -8,16 +9,19 @@ public class Grilla {
     private int[] inicio;
     private ArrayList<int[]> finales;
     private LinkedList<Laser> laser;
+    // lista: 1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.fila = (fila * 2) + 1;
         this.columna = (columna * 2) + 1;
         this.matriz = new Celda[this.fila][this.columna];
-        //System.out.printf("fila: %d columna: %d", fila, columna);
+        this.laser = new LinkedList<Laser>();
+        System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
         inicializarMatriz(lineas, posiciones);
         String direccion = agregarEmisorObjetivo(posiciones);
-        printearMatriz();
         crearLaser(inicio[0], inicio[1], direccion);
+        //printearMatriz();
+        printearLaser();
     }
 
     private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones) {
@@ -55,23 +59,24 @@ public class Grilla {
         }
     }
 
-    public Celda getCelda(int x, int y) { return matriz[x][y]; }
+    public Celda getCelda(int x, int y) {
+        return matriz[x][y];
+    }
 
     public void crearLaser(int x, int y, String direccion) {
-        if (x >= fila || y >= columna) {
+        if (x >= fila-1 || y >= columna-1) {
             return;
         }
 
         Laser nuevo_laser = new Laser(new int[] {x, y}, direccion, this);
-        String nueva_dirreccion = nuevo_laser.verificarBloque();
+        int[] posicion_final = nuevo_laser.getPosicionFinal();
 
-        if (nueva_dirreccion.isEmpty()) {
+        if (posicion_final == null) {
             return;
         }
 
         laser.add(nuevo_laser);
-        int[] posicion_final = nuevo_laser.getPosicionFinal();
-        crearLaser(posicion_final[0], posicion_final[1], nueva_dirreccion);
+        crearLaser(posicion_final[0], posicion_final[1], nuevo_laser.getDireccion());
     }
 
     public void mostrarMatriz() {
@@ -84,6 +89,7 @@ public class Grilla {
     }
 
     private void printearMatriz() {
+        int indice_laser = 0;
         for (int i=0; i < fila; i++) {
             for (int j=0; j < columna; j++) {
                 Celda elemento = matriz[i][j];
@@ -116,5 +122,32 @@ public class Grilla {
             matriz[x][y] = new Celda(tipo);
         }
         return dirreccion;
+    }
+
+    private void printearLaser() {
+        Laser ultimo_laser = laser.get(laser.size()-1);
+        int[] posicion_final = ultimo_laser.getPosicionFinal();
+        int x = posicion_final[0];
+        int y = posicion_final[1];
+
+        for (int i=0; i < fila; i++) {
+            for (int j=0; j < columna; j++) {
+                int[] posicion_laser = {};
+                for(int k=0; k < laser.size(); k++) {
+                    Laser laser_actual = laser.get(k);
+                    int[] posicion = laser_actual.getPosicionInicial();
+                    if (posicion[0] == i && posicion[1] == j) {
+                        posicion_laser = new int[] {i, j};
+                    }
+                }
+
+                if (posicion_laser.length > 0 || (x == i && y == j)) {
+                    System.out.printf("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
+                } else {
+                    System.out.print(matriz[i][j].getIdentificador());
+                }
+            }
+            System.out.print("\n");
+        }
     }
 }

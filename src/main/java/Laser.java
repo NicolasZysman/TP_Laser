@@ -6,11 +6,19 @@ public class Laser {
 
     public Laser(int[] posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
-        this.direccion = direccion;
         this.grilla = grilla;
+        String[] nueva_posicion = verificarBloque(direccion);
+
+        if (nueva_posicion.length == 0) {
+            this.posicion_final = null;
+            this.direccion = null;
+        } else {
+            this.posicion_final = new int[] {Integer.parseInt(nueva_posicion[0]), Integer.parseInt(nueva_posicion[1])};
+            this.direccion = nueva_posicion[2];
+        }
     }
 
-    public String verificarBloque() {
+    private String[] verificarBloque(String direccion) {
         Celda celda_del_medio = null;
         if (posicion_inicial[0] % 2 == 0) {
             if (direccion.startsWith("S")) {
@@ -25,11 +33,10 @@ public class Laser {
                 celda_del_medio = grilla.getCelda(posicion_inicial[0], posicion_inicial[1]-1);
             }
         }
-        String[] nueva_posicion = celda_del_medio.interactuar(this);
-        int y = Integer.parseInt(nueva_posicion[0]);
-        int x = Integer.parseInt(nueva_posicion[1]);
-        posicion_final = new int[] {x, y};
-        return nueva_posicion[2];
+
+        String[] nueva_posicion = celda_del_medio.interactuar(this.posicion_inicial, direccion);
+
+        return nueva_posicion;
     }
 
     public int[] getPosicionInicial() {
