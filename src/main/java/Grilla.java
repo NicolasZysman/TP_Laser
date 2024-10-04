@@ -6,7 +6,7 @@ public class Grilla {
     private int fila;
     private int columna;
     private Celda[][] matriz;
-    private int[] inicio;
+    private ArrayList<String[]> inicio;
     private ArrayList<int[]> finales;
     private LinkedList<Laser> laser;
     // lista: 1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8
@@ -16,10 +16,16 @@ public class Grilla {
         this.columna = (columna * 2) + 1;
         this.matriz = new Celda[this.fila][this.columna];
         this.laser = new LinkedList<Laser>();
+        this.inicio = new ArrayList<String[]>();
+        this.finales = new ArrayList<int[]>();
+
         System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
         inicializarMatriz(lineas, posiciones);
         String direccion = agregarEmisorObjetivo(posiciones);
-        crearLaser(inicio[0], inicio[1], direccion);
+        for (int i=0; i < inicio.size(); i++) {
+            String[] emisor = inicio.get(i);
+            crearLaser(Integer.parseInt(emisor[0]), Integer.parseInt(emisor[1]), emisor[2]);
+        }
         //printearMatriz();
         printearLaser();
     }
@@ -108,9 +114,7 @@ public class Grilla {
             int x = Integer.parseInt(partes[2]);
 
             if (tipo == 'E') {
-                this.inicio = new int[]{x, y};
-                this.finales = new ArrayList<int[]>();
-                dirreccion = partes[3];
+                inicio.add(new String[] {String.valueOf(x), String.valueOf(y), partes[3]});
             } else {
                 finales.add(new int[] {x, y});
             }
