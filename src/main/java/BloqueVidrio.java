@@ -1,7 +1,7 @@
 public class BloqueVidrio extends Bloque {
 
     @Override
-    public String[] interactuarConLaser(Laser laser) {
+    public String[] interactuarConLaser(int[] posicion_incial, String direccion) {
 //        String direccion_actual = laser.getDireccion();
 //        int[] posicion_inicial = laser.getPosicionInicial();
 //
