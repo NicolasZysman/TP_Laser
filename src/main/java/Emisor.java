@@ -10,14 +10,17 @@ public class Emisor {
     private ArrayList<int[]> finales;
     private LinkedList<Laser> laser;
 
-    public Emisor(String x, String y, String direccion) {
+    public Emisor(String x, String y, String direccion, Grilla grilla) {
         this.x = x;
         this.y = y;
         this.direccion = direccion;
+        this.grilla = grilla;
         this.laser = new LinkedList<Laser>();
-//        this.inicio = new ArrayList<Emisor[]>();
         this.finales = new ArrayList<int[]>();
-
+//        this.inicio = new ArrayList<Emisor[]>();
+//        printearLaser();
+        inicializarEmisores();
+        grilla.printearLaser(laser);
     }
 
     public void inicializarEmisores() {
@@ -38,6 +41,8 @@ public class Emisor {
         if (posicion_final == null) {
             return;
         }
+
+//        grilla.printearLaser(laser);
 
         laser.add(nuevo_laser);
         crearLaser(posicion_final[0], posicion_final[1], nuevo_laser.getDireccion());
