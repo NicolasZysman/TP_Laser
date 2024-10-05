@@ -1,3 +1,5 @@
+package juego;
+
 public class Celda {
     private Bloque bloque;
     private char identificador;
@@ -24,7 +26,7 @@ public class Celda {
                 this.bloque = new BloqueCristal();
                 break;
             case '.':
-                this.bloque = new BloqueNormal(); // Celda vacía
+                this.bloque = new BloqueNormal(); // juego.Celda vacía
                 break;
             default:
                 this.bloque = new BloqueNormal();

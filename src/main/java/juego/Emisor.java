@@ -1,3 +1,5 @@
+package juego;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -6,7 +8,7 @@ public class Emisor {
     private String y;
     private String direccion;
     private Grilla grilla;
-//    private ArrayList<Emisor[]> inicio;
+//    private ArrayList<juego.Emisor[]> inicio;
     private ArrayList<int[]> finales;
     private LinkedList<Laser> laser;
 
@@ -17,7 +19,7 @@ public class Emisor {
         this.grilla = grilla;
         this.laser = new LinkedList<Laser>();
         this.finales = new ArrayList<int[]>();
-//        this.inicio = new ArrayList<Emisor[]>();
+//        this.inicio = new ArrayList<juego.Emisor[]>();
 //        printearLaser();
         inicializarEmisores();
         grilla.printearLaser(laser);
