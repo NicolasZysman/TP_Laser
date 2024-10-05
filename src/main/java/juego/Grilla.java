@@ -1,3 +1,5 @@
+package juego;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -5,9 +7,9 @@ public class Grilla {
     private int fila;
     private int columna;
     private Celda[][] matriz;
-//    private ArrayList<Emisor[]> inicio;
+//    private ArrayList<juego.Emisor[]> inicio;
 //    private ArrayList<int[]> finales;
-//    private LinkedList<Laser> laser;
+//    private LinkedList<juego.Laser> laser;
     // lista: 1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
@@ -50,7 +52,7 @@ public class Grilla {
                     }
 
                 } else {
-                    matriz[i][j] = new Celda('.'); // Celda vacía por defecto
+                    matriz[i][j] = new Celda('.'); // juego.Celda vacía por defecto
                 }
             }
         }
@@ -93,7 +95,7 @@ public class Grilla {
             int x = Integer.parseInt(partes[2]);
 
             if (tipo == 'E') {
-//                inicio.add(new Emisor(String.valueOf(x), String.valueOf(y), partes[3]));
+//                inicio.add(new juego.Emisor(String.valueOf(x), String.valueOf(y), partes[3]));
                 new Emisor(String.valueOf(x), String.valueOf(y), partes[3], this);
             } else {
 //                finales.add(new int[] {x, y});

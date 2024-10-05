@@ -1,3 +1,5 @@
+package juego;
+
 public class BloqueEspejo extends Bloque {
 
     @Override
