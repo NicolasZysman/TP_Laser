@@ -1,35 +1,69 @@
 package juego;
 
-public class BloqueVidrio extends Bloque {
+public class BloqueVidrio implements Bloque {
 
     @Override
-    public String[] interactuarConLaser(int[] posicion_incial, String direccion) {
-//        String direccion_actual = laser.getDireccion();
-//        int[] posicion_inicial = laser.getPosicionInicial();
-//
-//        int x = posicion_inicial[0];
-//        int y = posicion_inicial[1];
-//
-//        int x1 = 0;
-//        int x2 = 0;
-//        int y1 = 0;
-//        int y2 = 0;
-//
-//        if (direccion_actual.startsWith("S")) {
-//            x1 = x + 1;
-//        } else {
-//            x1 = x - 1;
-//        }
-//
-//        if (direccion_actual.endsWith("E")) {
-//            y1 = y + 1;
-//        } else {
-//            y1 = y - 1;
-//        }
+    public boolean BloqueVacio() {
+        return false;
+    }
 
+    @Override
+    public boolean EsUnBloqueNormal() {
+        return false;
+    }
 
-        System.out.println("juego.BloqueCristal");
-        String[] nada = {""};
-        return nada;
+    @Override
+    public boolean SePuedeMover() {
+        return true;
+    }
+
+    @Override
+    public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
+        int x = posicion_inicial[0];
+        int y = posicion_inicial[1];
+
+        int x1 = 0;
+        int x2 = 0;
+        int y1 = 0;
+        int y2 = 0;
+        String nueva_direccion = "";
+
+        if (direccion.startsWith("S")) {
+            x1 = x + 1;
+            if (x % 2 == 0) {
+                x2 = x - 1;
+                nueva_direccion += "N";
+            } else {
+                x2 = x + 1;
+            }
+        } else {
+            x1 = x - 1;
+            if (x % 2 == 0) {
+                x2 = x + 1;
+                nueva_direccion += "S";
+            } else {
+                x2 = x - 1;
+            }
+        }
+
+        if (direccion.endsWith("E")) {
+            y1 = y + 1;
+            if (y % 2 == 0) {
+                y2 = y - 1;
+                nueva_direccion += "W";
+            } else {
+                y2 = y + 1;
+            }
+        } else {
+            y1 = y - 1;
+            if (y % 2 == 0) {
+                y2 = y + 1;
+                nueva_direccion += "E";
+            } else {
+                y2 = y - 1;
+            }
+        }
+
+        return new String[] {String.valueOf(x1), String.valueOf(y1), direccion, String.valueOf(x2), String.valueOf(y2), nueva_direccion};
     };
 }

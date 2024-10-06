@@ -1,6 +1,20 @@
 package juego;
 
-public class BloqueCristal extends Bloque {
+public class BloqueCristal implements Bloque {
+    @Override
+    public boolean BloqueVacio() {
+        return false;
+    }
+
+    @Override
+    public boolean EsUnBloqueNormal() {
+        return false;
+    }
+
+    @Override
+    public boolean SePuedeMover() {
+        return true;
+    }
 
     @Override
     public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
@@ -8,9 +22,19 @@ public class BloqueCristal extends Bloque {
         int y = posicion_inicial[1];
 
         if (x % 2 == 0) {
-            return new String[] {String.valueOf(x + 1), String.valueOf(y + 3), direccion};
+            if (direccion.startsWith("S")) {
+                x += 2;
+            } else {
+                x -= 2;
+            }
+        } else {
+            if (direccion.endsWith("E")) {
+                y += 2;
+            } else {
+                y -= 2;
+            }
         }
 
-        return new String[] {String.valueOf(x + 3), String.valueOf(y + 1), direccion};
+        return new String[] {String.valueOf(x), String.valueOf(y), direccion};
     };
 }

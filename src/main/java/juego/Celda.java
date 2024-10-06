@@ -1,8 +1,8 @@
 package juego;
 
 public class Celda {
-    private Bloque bloque;
-    private char identificador;
+    public Bloque bloque;
+    public char identificador;
     private boolean esEmisor;
     private boolean esObjetivo;
     private boolean bloqueVacio;
@@ -11,10 +11,10 @@ public class Celda {
         this.identificador = tipoBloque;
         switch (tipoBloque) {
             case 'F':
-                this.bloque = new BloqueOpacoFijo();
+                this.bloque = new BloqueOpaco(false);
                 break;
             case 'B':
-                this.bloque = new BloqueOpacoMovil();
+                this.bloque = new BloqueOpaco(true);
                 break;
             case 'R':
                 this.bloque = new BloqueEspejo();
@@ -26,10 +26,10 @@ public class Celda {
                 this.bloque = new BloqueCristal();
                 break;
             case '.':
-                this.bloque = new BloqueNormal(); // juego.Celda vacía
+                this.bloque = new BloqueNormal(false); // juego.Celda vacía
                 break;
             default:
-                this.bloque = new BloqueNormal();
+                this.bloque = new BloqueNormal(true);
                 // espacio vacio
         }
     }
@@ -40,5 +40,9 @@ public class Celda {
 
     public String[] interactuar(int[] posicion_inicial, String direccion) {
         return this.bloque.interactuarConLaser(posicion_inicial, direccion);
+    }
+
+    public Bloque getBloque() {
+        return this.bloque;
     }
 }

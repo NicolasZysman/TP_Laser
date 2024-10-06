@@ -5,18 +5,33 @@ public class Laser {
     private int[] posicion_final;
     private String direccion;
     private Grilla grilla;
+    private Laser siguiente;
+    private Laser alternativo;
 
     public Laser(int[] posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
         this.grilla = grilla;
         String[] nueva_posicion = verificarBloque(direccion);
+        int x = 0;
+        int y = 0;
 
-        if (nueva_posicion.length == 0) {
+        if (nueva_posicion == null) {
             this.posicion_final = null;
             this.direccion = null;
+            this.siguiente = null;
+            this.alternativo = null;
         } else {
-            this.posicion_final = new int[] {Integer.parseInt(nueva_posicion[0]), Integer.parseInt(nueva_posicion[1])};
+            x = Integer.parseInt(nueva_posicion[0]);
+            y = Integer.parseInt(nueva_posicion[1]);
+            this.posicion_final = new int[] {x, y};
             this.direccion = nueva_posicion[2];
+            this.siguiente = new Laser(new int[] {x, y}, nueva_posicion[2], grilla);
+
+            if (nueva_posicion.length > 3) {
+                int x2 = Integer.parseInt(nueva_posicion[3]);
+                int y2 = Integer.parseInt(nueva_posicion[4]);
+                this.alternativo = new Laser(new int[] {x2, y2}, nueva_posicion[5], grilla);
+            }
         }
     }
 
@@ -36,6 +51,10 @@ public class Laser {
             }
         }
 
+        if (celda_del_medio == null) {
+            return null;
+        }
+
         String[] nueva_posicion = celda_del_medio.interactuar(this.posicion_inicial, direccion);
 
         return nueva_posicion;
@@ -52,6 +71,16 @@ public class Laser {
     public String getDireccion() {
         return this.direccion;
     }
+
+    public Laser getSiguiente() {
+        return this.siguiente;
+    }
+
+    public Laser getAlternativo() {
+        return this.alternativo;
+    }
+
+
 
     // cada trazado verifica el proixmo bloque
 

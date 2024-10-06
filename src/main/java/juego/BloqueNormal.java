@@ -1,6 +1,27 @@
 package juego;
 
-public class BloqueNormal extends Bloque {
+public class BloqueNormal implements Bloque {
+    private boolean vacio;
+
+    public BloqueNormal(boolean vacio) {
+        this.vacio = vacio;
+    }
+
+    @Override
+    public boolean BloqueVacio() {
+        return vacio;
+    }
+
+    @Override
+    public boolean EsUnBloqueNormal() {
+        return true;
+    }
+
+    @Override
+    public boolean SePuedeMover() {
+        return false;
+    }
+
     @Override
     public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
         int x = posicion_inicial[0];

@@ -1,29 +1,31 @@
 package juego;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Grilla {
     private int fila;
     private int columna;
     private Celda[][] matriz;
-//    private ArrayList<juego.Emisor[]> inicio;
-//    private ArrayList<int[]> finales;
-//    private LinkedList<juego.Laser> laser;
-    // lista: 1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8
+    private ArrayList<Emisor> emisores;
+    private ArrayList<String> posiciones;
+    private ArrayList<int[]> finales;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.fila = (fila * 2) + 1;
         this.columna = (columna * 2) + 1;
         this.matriz = new Celda[this.fila][this.columna];
+        this.emisores = new ArrayList<Emisor>();
+        this.posiciones = posiciones;
 //        System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
-        inicializarMatriz(lineas, posiciones);
-        agregarEmisorObjetivo(posiciones);
-//        printearMatriz();
-//         printearLaser();
+        inicializarMatriz(lineas);
+        agregarEmisorObjetivo();
+        //printearMatriz();
+        //printearLaser();
     }
 
-    private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones) {
+    private void inicializarMatriz(ArrayList<String> lineas) {
 
         int indice_lineas = 0;
         int indice_caracter = 0;
@@ -52,13 +54,16 @@ public class Grilla {
                     }
 
                 } else {
-                    matriz[i][j] = new Celda('.'); // juego.Celda vacía por defecto
+                    matriz[i][j] = new Celda('.'); // Celda vacía por defecto
                 }
             }
         }
     }
 
     public Celda getCelda(int x, int y) {
+        if (x >= fila || y >= columna || x < 0 || y < 0) {
+            return null;
+        }
         return matriz[x][y];
     }
 
@@ -86,7 +91,7 @@ public class Grilla {
         }
     }
 
-    private String agregarEmisorObjetivo(ArrayList<String> posiciones) {
+    private void agregarEmisorObjetivo() {
         String dirreccion = "";
         for (String posicion : posiciones) {
             String[] partes = posicion.split(" ");
@@ -95,8 +100,7 @@ public class Grilla {
             int x = Integer.parseInt(partes[2]);
 
             if (tipo == 'E') {
-//                inicio.add(new juego.Emisor(String.valueOf(x), String.valueOf(y), partes[3]));
-                new Emisor(String.valueOf(x), String.valueOf(y), partes[3], this);
+                this.emisores.add(new Emisor(x, y, partes[3], this));
             } else {
 //                finales.add(new int[] {x, y});
                 System.out.println("x: " + x + ", y: " + y);
@@ -108,33 +112,49 @@ public class Grilla {
 
             matriz[x][y] = new Celda(tipo);
         }
-        return dirreccion;
     }
 
-    public void printearLaser(LinkedList<Laser> laser) {
-        Laser ultimo_laser = laser.get(laser.size()-1);
-        int[] posicion_final = ultimo_laser.getPosicionFinal();
-        int x = posicion_final[0];
-        int y = posicion_final[1];
+    public void printearLaser() {
+        ArrayList<Pair<Integer, Integer>> posiciones = new ArrayList<>();
+        for (Emisor emisor : emisores) {
+            Laser laser_actual = emisor.getPrimerLaser();
+            PrintearLaserRecursivo(posiciones, laser_actual);
+        }
 
-        for (int i=0; i < fila; i++) {
-            for (int j=0; j < columna; j++) {
-                int[] posicion_laser = {};
-                for(int k=0; k < laser.size(); k++) {
-                    Laser laser_actual = laser.get(k);
-                    int[] posicion = laser_actual.getPosicionInicial();
-                    if (posicion[0] == i && posicion[1] == j) {
-                        posicion_laser = new int[] {i, j};
-                    }
-                }
-
-                if (posicion_laser.length > 0 || (x == i && y == j)) {
-                    System.out.printf("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
+        for (int i=0; i<fila; i++) {
+            for (int j=0; j<columna; j++) {
+                if (posiciones.contains(new Pair<>(i, j))) {
+                    System.out.print("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
                 } else {
                     System.out.print(matriz[i][j].getIdentificador());
                 }
             }
             System.out.print("\n");
         }
+    }
+
+    private void PrintearLaserRecursivo(ArrayList<Pair<Integer, Integer>> posiciones, Laser actual) {
+        if (actual == null) {
+            return;
+        }
+
+        Pair<Integer, Integer> posicion_inicial = new Pair<>(actual.getPosicionInicial()[0], actual.getPosicionInicial()[1]);
+        posiciones.add(posicion_inicial);
+        PrintearLaserRecursivo(posiciones, actual.getSiguiente());
+        PrintearLaserRecursivo(posiciones, actual.getAlternativo());
+    }
+
+    public void intercambiar(Celda bloque1, Celda bloque2) {
+        char indentificador_auxiliar = bloque1.identificador;
+        Bloque bloque_auxiliar = bloque1.bloque;
+        bloque1.identificador = bloque2.identificador;
+        bloque1.bloque = bloque2.bloque;
+        bloque2.identificador = indentificador_auxiliar;
+        bloque2.bloque = bloque_auxiliar;
+    }
+
+    public void regenerarLaser() {
+        emisores.clear();
+        agregarEmisorObjetivo();
     }
 }

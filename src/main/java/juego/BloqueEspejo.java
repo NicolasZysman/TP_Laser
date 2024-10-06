@@ -1,6 +1,21 @@
 package juego;
 
-public class BloqueEspejo extends Bloque {
+public class BloqueEspejo implements Bloque {
+
+    @Override
+    public boolean BloqueVacio() {
+        return false;
+    }
+
+    @Override
+    public boolean EsUnBloqueNormal() {
+        return false;
+    }
+
+    @Override
+    public boolean SePuedeMover() {
+        return true;
+    }
 
     @Override
     public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
@@ -19,7 +34,7 @@ public class BloqueEspejo extends Bloque {
                     x -= 1;
                     y += 1;
                 }
-                case "SO" -> {
+                case "SW" -> {
                     nueva_direccion = "NO";
                     x -= 1;
                     y -= 1;
@@ -30,7 +45,7 @@ public class BloqueEspejo extends Bloque {
                     y += 1;
                 }
                 case null, default -> {
-                    nueva_direccion = "SO";
+                    nueva_direccion = "SW";
                     x += 1;
                     y -= 1;
                 }
@@ -38,11 +53,11 @@ public class BloqueEspejo extends Bloque {
         } else {
             switch (direccion) {
                 case "SE" -> {
-                    nueva_direccion = "SO";
+                    nueva_direccion = "SW";
                     x += 1;
                     y -= 1;
                 }
-                case "SO" -> {
+                case "SW" -> {
                     nueva_direccion = "SE";
                     x += 1;
                     y += 1;
@@ -62,4 +77,6 @@ public class BloqueEspejo extends Bloque {
 
         return new String[] {String.valueOf(x), String.valueOf(y), nueva_direccion};
     };
+
+
 }
