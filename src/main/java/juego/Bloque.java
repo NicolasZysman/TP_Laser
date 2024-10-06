@@ -1,6 +1,12 @@
 package juego;
 
-public abstract class Bloque {
+public interface Bloque {
 
-    public abstract String[] interactuarConLaser(int[] posicion_inicial, String direccion);
+    public boolean BloqueVacio();
+
+    public boolean EsUnBloqueNormal();
+
+    public boolean SePuedeMover();
+
+    public String[] interactuarConLaser(int[] posicion_inicial, String direccion);
 }

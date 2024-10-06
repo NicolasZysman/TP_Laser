@@ -63,5 +63,20 @@ public class Nivel {
         return posiciones;
     }
 
+    public void intercambiarBloques(int[] posicion_bloque, int[] nueva_posicion) {
+        Celda bloque1 = grilla.getCelda(posicion_bloque[0], posicion_bloque[1]);
+        Bloque tipo_bloque1 = bloque1.getBloque();
+        Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
+        Bloque tipo_bloque2 = bloque2.getBloque();
+
+        if (!tipo_bloque1.SePuedeMover() || tipo_bloque1.EsUnBloqueNormal() || !tipo_bloque2.EsUnBloqueNormal() || tipo_bloque2.BloqueVacio()) {
+            return;
+        }
+
+        grilla.intercambiar(bloque1, bloque2);
+        grilla.regenerarLaser();
+        grilla.printearLaser();
+    }
+
     public void reset() {}
 }

@@ -1,29 +1,31 @@
 package juego;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Grilla {
     private int fila;
     private int columna;
     private Celda[][] matriz;
     private ArrayList<Emisor> emisores;
-//    private ArrayList<int[]> finales;
-//    private LinkedList<Laser> laser;
+    private ArrayList<String> posiciones;
+    private ArrayList<int[]> finales;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.fila = (fila * 2) + 1;
         this.columna = (columna * 2) + 1;
         this.matriz = new Celda[this.fila][this.columna];
         this.emisores = new ArrayList<Emisor>();
+        this.posiciones = posiciones;
 //        System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
-        inicializarMatriz(lineas, posiciones);
-        agregarEmisorObjetivo(posiciones);
+        inicializarMatriz(lineas);
+        agregarEmisorObjetivo();
         //printearMatriz();
-        printearLaser();
+        //printearLaser();
     }
 
-    private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones) {
+    private void inicializarMatriz(ArrayList<String> lineas) {
 
         int indice_lineas = 0;
         int indice_caracter = 0;
@@ -89,7 +91,7 @@ public class Grilla {
         }
     }
 
-    private String agregarEmisorObjetivo(ArrayList<String> posiciones) {
+    private void agregarEmisorObjetivo() {
         String dirreccion = "";
         for (String posicion : posiciones) {
             String[] partes = posicion.split(" ");
@@ -110,20 +112,18 @@ public class Grilla {
 
             matriz[x][y] = new Celda(tipo);
         }
-        return dirreccion;
     }
 
-    private void printearLaser() {
-        ArrayList<LinkedList<Laser>> lasers = new ArrayList<>();
+    public void printearLaser() {
+        ArrayList<Pair<Integer, Integer>> posiciones = new ArrayList<>();
         for (Emisor emisor : emisores) {
-            lasers.add(emisor.getLaser());
+            Laser laser_actual = emisor.getPrimerLaser();
+            PrintearLaserRecursivo(posiciones, laser_actual);
         }
 
-        for (int i=0; i < fila; i++) {
-            for (int j=0; j < columna; j++) {
-                boolean hay_laser = isHayLaser(lasers, i, j);
-
-                if (hay_laser) {
+        for (int i=0; i<fila; i++) {
+            for (int j=0; j<columna; j++) {
+                if (posiciones.contains(new Pair<>(i, j))) {
                     System.out.print("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
                 } else {
                     System.out.print(matriz[i][j].getIdentificador());
@@ -133,21 +133,28 @@ public class Grilla {
         }
     }
 
-    private static boolean isHayLaser(ArrayList<LinkedList<Laser>> lasers, int i, int j) {
-        boolean hay_laser = false;
-        for (LinkedList<Laser> laser : lasers) {
-            int[] posicion_final = laser.getLast().getPosicionFinal();
-            int xn = posicion_final[0];
-            int yn = posicion_final[1];
-            for (Laser segmento : laser) {
-                int[] posicion_inicial = segmento.getPosicionInicial();
-                int x = posicion_inicial[0];
-                int y = posicion_inicial[1];
-                if ((x == i && y == j) || (xn == i && yn == j)) {
-                    hay_laser = true;
-                }
-            }
+    private void PrintearLaserRecursivo(ArrayList<Pair<Integer, Integer>> posiciones, Laser actual) {
+        if (actual == null) {
+            return;
         }
-        return hay_laser;
+
+        Pair<Integer, Integer> posicion_inicial = new Pair<>(actual.getPosicionInicial()[0], actual.getPosicionInicial()[1]);
+        posiciones.add(posicion_inicial);
+        PrintearLaserRecursivo(posiciones, actual.getSiguiente());
+        PrintearLaserRecursivo(posiciones, actual.getAlternativo());
+    }
+
+    public void intercambiar(Celda bloque1, Celda bloque2) {
+        char indentificador_auxiliar = bloque1.identificador;
+        Bloque bloque_auxiliar = bloque1.bloque;
+        bloque1.identificador = bloque2.identificador;
+        bloque1.bloque = bloque2.bloque;
+        bloque2.identificador = indentificador_auxiliar;
+        bloque2.bloque = bloque_auxiliar;
+    }
+
+    public void regenerarLaser() {
+        emisores.clear();
+        agregarEmisorObjetivo();
     }
 }

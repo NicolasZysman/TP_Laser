@@ -1,6 +1,20 @@
 package juego;
 
-public class BloqueCristal extends Bloque {
+public class BloqueCristal implements Bloque {
+    @Override
+    public boolean BloqueVacio() {
+        return false;
+    }
+
+    @Override
+    public boolean EsUnBloqueNormal() {
+        return false;
+    }
+
+    @Override
+    public boolean SePuedeMover() {
+        return true;
+    }
 
     @Override
     public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
