@@ -3,13 +3,15 @@ public class Laser {
     private int[] posicion_final;
     private String direccion;
     private Grilla grilla;
+    private Laser siguiente;
+    private Laser alternativo;
 
     public Laser(int[] posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
         this.grilla = grilla;
         String[] nueva_posicion = verificarBloque(direccion);
 
-        if (nueva_posicion.length == 0) {
+        if (nueva_posicion == null) {
             this.posicion_final = null;
             this.direccion = null;
         } else {
@@ -32,6 +34,10 @@ public class Laser {
             } else {
                 celda_del_medio = grilla.getCelda(posicion_inicial[0], posicion_inicial[1]-1);
             }
+        }
+
+        if (celda_del_medio == null) {
+            return null;
         }
 
         String[] nueva_posicion = celda_del_medio.interactuar(this.posicion_inicial, direccion);

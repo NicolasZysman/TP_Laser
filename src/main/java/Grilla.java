@@ -5,20 +5,20 @@ public class Grilla {
     private int fila;
     private int columna;
     private Celda[][] matriz;
-//    private ArrayList<Emisor[]> inicio;
+    private ArrayList<Emisor> emisores;
 //    private ArrayList<int[]> finales;
 //    private LinkedList<Laser> laser;
-    // lista: 1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.fila = (fila * 2) + 1;
         this.columna = (columna * 2) + 1;
         this.matriz = new Celda[this.fila][this.columna];
+        this.emisores = new ArrayList<Emisor>();
 //        System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
         inicializarMatriz(lineas, posiciones);
         agregarEmisorObjetivo(posiciones);
-        printearMatriz();
-//        printearLaser();
+        //printearMatriz();
+        printearLaser();
     }
 
     private void inicializarMatriz(ArrayList<String> lineas, ArrayList<String> posiciones) {
@@ -57,6 +57,9 @@ public class Grilla {
     }
 
     public Celda getCelda(int x, int y) {
+        if (x >= fila || y >= columna || x < 0 || y < 0) {
+            return null;
+        }
         return matriz[x][y];
     }
 
@@ -93,8 +96,7 @@ public class Grilla {
             int x = Integer.parseInt(partes[2]);
 
             if (tipo == 'E') {
-//                inicio.add(new Emisor(String.valueOf(x), String.valueOf(y), partes[3]));
-                new Emisor(String.valueOf(x), String.valueOf(y), partes[3]);
+                this.emisores.add(new Emisor(x, y, partes[3], this));
             } else {
 //                finales.add(new int[] {x, y});
                 System.out.println("x: " + x + ", y: " + y);
@@ -109,30 +111,41 @@ public class Grilla {
         return dirreccion;
     }
 
-//    private void printearLaser() {
-//        Laser ultimo_laser = laser.get(laser.size()-1);
-//        int[] posicion_final = ultimo_laser.getPosicionFinal();
-//        int x = posicion_final[0];
-//        int y = posicion_final[1];
-//
-//        for (int i=0; i < fila; i++) {
-//            for (int j=0; j < columna; j++) {
-//                int[] posicion_laser = {};
-//                for(int k=0; k < laser.size(); k++) {
-//                    Laser laser_actual = laser.get(k);
-//                    int[] posicion = laser_actual.getPosicionInicial();
-//                    if (posicion[0] == i && posicion[1] == j) {
-//                        posicion_laser = new int[] {i, j};
-//                    }
-//                }
-//
-//                if (posicion_laser.length > 0 || (x == i && y == j)) {
-//                    System.out.printf("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
-//                } else {
-//                    System.out.print(matriz[i][j].getIdentificador());
-//                }
-//            }
-//            System.out.print("\n");
-//        }
-//    }
+    private void printearLaser() {
+        ArrayList<LinkedList<Laser>> lasers = new ArrayList<>();
+        for (Emisor emisor : emisores) {
+            lasers.add(emisor.getLaser());
+        }
+
+        for (int i=0; i < fila; i++) {
+            for (int j=0; j < columna; j++) {
+                boolean hay_laser = isHayLaser(lasers, i, j);
+
+                if (hay_laser) {
+                    System.out.print("\u001B[31m" + matriz[i][j].getIdentificador() + "\u001B[0m");
+                } else {
+                    System.out.print(matriz[i][j].getIdentificador());
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+
+    private static boolean isHayLaser(ArrayList<LinkedList<Laser>> lasers, int i, int j) {
+        boolean hay_laser = false;
+        for (LinkedList<Laser> laser : lasers) {
+            int[] posicion_final = laser.getLast().getPosicionFinal();
+            int xn = posicion_final[0];
+            int yn = posicion_final[1];
+            for (Laser segmento : laser) {
+                int[] posicion_inicial = segmento.getPosicionInicial();
+                int x = posicion_inicial[0];
+                int y = posicion_inicial[1];
+                if ((x == i && y == j) || (xn == i && yn == j)) {
+                    hay_laser = true;
+                }
+            }
+        }
+        return hay_laser;
+    }
 }

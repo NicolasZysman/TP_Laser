@@ -17,7 +17,7 @@ public class BloqueEspejo extends Bloque {
                     x -= 1;
                     y += 1;
                 }
-                case "SO" -> {
+                case "SW" -> {
                     nueva_direccion = "NO";
                     x -= 1;
                     y -= 1;
@@ -28,7 +28,7 @@ public class BloqueEspejo extends Bloque {
                     y += 1;
                 }
                 case null, default -> {
-                    nueva_direccion = "SO";
+                    nueva_direccion = "SW";
                     x += 1;
                     y -= 1;
                 }
@@ -36,11 +36,11 @@ public class BloqueEspejo extends Bloque {
         } else {
             switch (direccion) {
                 case "SE" -> {
-                    nueva_direccion = "SO";
+                    nueva_direccion = "SW";
                     x += 1;
                     y -= 1;
                 }
-                case "SO" -> {
+                case "SW" -> {
                     nueva_direccion = "SE";
                     x += 1;
                     y += 1;
