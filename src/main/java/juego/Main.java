@@ -1,3 +1,5 @@
+package juego;
+
 import java.io.File;
 
 public class Main {

@@ -1,3 +1,5 @@
+package juego;
+
 public class BloqueVidrio extends Bloque {
 
     @Override
@@ -26,7 +28,7 @@ public class BloqueVidrio extends Bloque {
 //        }
 
 
-        System.out.println("BloqueCristal");
+        System.out.println("juego.BloqueCristal");
         String[] nada = {""};
         return nada;
     };

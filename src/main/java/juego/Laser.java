@@ -1,3 +1,5 @@
+package juego;
+
 public class Laser {
     private int[] posicion_inicial;
     private int[] posicion_final;
