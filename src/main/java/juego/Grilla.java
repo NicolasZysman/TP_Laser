@@ -73,28 +73,7 @@ public class Grilla {
         return this.posiciones;
     }
 
-    public void mostrarMatriz() {
-        for (Celda[] fila : matriz) {
-            for (Celda celda : fila) {
-                System.out.print(celda + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    private void printearMatriz() {
-        int indice_laser = 0;
-        for (int i=0; i < fila; i++) {
-            for (int j=0; j < columna; j++) {
-                Celda elemento = matriz[i][j];
-                System.out.printf("%c", elemento.getIdentificador());
-            }
-            System.out.print("\n");
-        }
-    }
-
     private void agregarEmisorObjetivo() {
-        String dirreccion = "";
         for (String posicion : posiciones) {
             String[] partes = posicion.split(" ");
             char tipo = partes[0].charAt(0);
