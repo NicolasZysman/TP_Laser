@@ -1,7 +1,8 @@
 package juego.App;
 
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import juego.*;
 import javafx.application.Application;
@@ -45,7 +46,7 @@ public class Vista extends Application {
         for (int i = 0; i < 6; i++) {
             Button levelButton = new Button("Level " + (i + 1));
             int nivel = i;
-            levelButton.setOnAction(event -> {
+            levelButton.setOnAction(_ -> {
 //                nivelActual = nivel;
                 resetearNivel(nivel + 1); //habria que separalo en dos metodos un resetarNivel y otra crearNivel()
                 Grilla grilla = juego.getNivel(1).grilla; //get(0) porque niveles siempre va a tener solo 1 nivel
@@ -70,18 +71,19 @@ public class Vista extends Application {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        ArrayList<Pair<Integer, Integer>> laserPositions = grilla.printearLaser();
+        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.devolverPosicionesLaser();
 
-        for (int j = 0; j < columnas; j++) {
-            for (int i = 0; i < filas; i++) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
                 Celda celda = grilla.getCelda(i, j);
                 StackPane cellPane = createCeldaPane(celda, i, j);
 
-                if (laserPositions.contains(new Pair<>(i, j))) {
-                    Line line = new Line(0, 0, 40, 40); // Ajusta las coordenadas según el tamaño de tus celdas
-                    line.setStrokeWidth(2);
-                    line.setStroke(Color.RED);
-                    gridPane.add(line, j, i);
+                if (celda.getIdentificador() == 'E') {
+                    gridPane.add(cellPane, j, i);
+                } else if (posicionesLaser.contains(new Pair<>(i, j))) {
+                    Rectangle rect = new Rectangle(40, 40);
+                    rect.setFill(Color.RED);
+                    gridPane.add(rect, j, i);
                 } else {
                     gridPane.add(cellPane, j, i);
                 }
@@ -92,12 +94,9 @@ public class Vista extends Application {
     public void resetearNivel(int nivel) {
         if (juego.getNiveles().isEmpty()) {
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
-            System.out.println("Primer nivel: " + juego.getNiveles());
         } else {
-            System.out.println("Antes de eliminar nivel: " + juego.getNiveles());
             juego.getNiveles().removeFirst();
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
-            System.out.println("Despues de eliminar nivel: " + juego.getNiveles());
         }
     }
 
@@ -110,25 +109,36 @@ public class Vista extends Application {
                 rect.setFill(Color.BLACK);
                 break;
             case 'B':
-                rect.setFill(Color.GRAY);
+                rect.setFill(Color.SADDLEBROWN);
                 break;
             case 'R':
-                rect.setFill(Color.TURQUOISE);
+                rect.setFill(Color.DARKCYAN);
                 break;
             case 'G':
-                rect.setFill(Color.GREEN);
-                break;
-            case 'C':
                 rect.setFill(Color.LIGHTCYAN);
                 break;
+            case 'C':
+                rect.setFill(Color.LIGHTSEAGREEN);
+                break;
             case 'E':
-                rect.setFill(Color.RED);
+                rect.setFill(Color.PURPLE);
                 break;
             case 'O':
                 rect.setFill(Color.RED);
                 break;
+            case 'g':
+                rect.setFill(Color.GOLD);
+                break;
             case '.':
-                rect.setFill(Color.WHITE);
+                if (fila % 2 == 0) {
+                    rect.setFill(Color.GRAY);
+                } else {
+                    if (columna % 2 == 0) {
+                        rect.setFill(Color.GRAY);
+                    } else {
+                        rect.setFill(Color.LIGHTGRAY);
+                    }
+                }
                 break;
             default:
                 rect.setFill(Color.WHITE);
@@ -140,16 +150,18 @@ public class Vista extends Application {
         pane.getChildren().add(rect);
 
         //primer if es el primer click, el else es el segundo click
-        pane.setOnMouseClicked(event -> {
+        pane.setOnMouseClicked(_ -> {
             if (!bloqueSeleccionado) {
                 posicionBloque = new int[]{fila, columna};
                 bloqueSeleccionado = true;
             } else {
                 int[] nuevaPosicion = {fila, columna};
 
-                juego.moverBloque(posicionBloque, nuevaPosicion, 1);
+                if (!juego.nivelTermiando(1)) {
+                    juego.moverBloque(posicionBloque, nuevaPosicion, 1);
+                    actualizarVista(juego.getNiveles().getFirst().grilla);
+                }
 
-                actualizarVista(juego.getNiveles().get(0).grilla);
                 bloqueSeleccionado = false;
             }
         });
@@ -159,5 +171,23 @@ public class Vista extends Application {
     private void actualizarVista(Grilla grilla) {
         gridPane.getChildren().clear();
         renderGrilla(grilla);
+        if (nivelGanado()) {
+            Rectangle rect = new Rectangle(gridPane.getWidth(), gridPane.getHeight());
+            Text texto = new Text("Nivel Ganado");
+            texto.setFont(Font.font(48));
+            texto.setFill(Color.RED);
+            texto.setStroke(Color.BLACK);
+            texto.setStrokeWidth(2);
+            texto.setTranslateX(250);
+            texto.setTranslateY(250);
+            rect.setFill(Color.GREEN);
+            rect.setOpacity(0.1);
+            gridPane.getChildren().add(rect);
+            gridPane.getChildren().add(texto);
+        }
+    }
+
+    private boolean nivelGanado() {
+        return juego.nivelTermiando(1);
     }
 }

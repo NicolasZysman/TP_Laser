@@ -6,7 +6,7 @@ public interface Bloque {
 
     boolean esUnBloqueNormal();
 
-    boolean sePuedeMover();
+    boolean movible();
 
     String[] interactuarConLaser(int[] posicion_inicial, String direccion);
 }

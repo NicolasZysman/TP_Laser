@@ -71,13 +71,13 @@ public class Nivel {
         Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
         Bloque tipo_bloque2 = bloque2.getBloque();
 
-        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.sePuedeMover() || tipo_bloque1.esUnBloqueNormal() || !tipo_bloque2.esUnBloqueNormal() || tipo_bloque2.bloqueVacio()) {
+        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.movible() || tipo_bloque1.esUnBloqueNormal() || !tipo_bloque2.esUnBloqueNormal() || tipo_bloque2.bloqueVacio()) {
             return;
         }
 
         grilla.intercambiar(bloque1, bloque2);
         grilla.regenerarLaser();
-        grilla.printearLaser();
+        grilla.devolverPosicionesLaser();
     }
 
     private boolean posicionesInvalidas(int[] posicion_bloque, int[] nueva_posicion) {
@@ -90,14 +90,10 @@ public class Nivel {
     }
 
     public boolean resetear() {
-        if (grilla.CantidadObjetivosCompletados()) {
-            int filas = grilla.getFila();
-            int columnas = grilla.getColumna();
-            ArrayList<String> posiciones = grilla.getPosiciones();
-            this.grilla = new Grilla(datos, posiciones, filas, columnas);
-            return true;
-        }
-
-        return false;
+        //            int filas = grilla.getFila();
+        //            int columnas = grilla.getColumna();
+        //            ArrayList<String> posiciones = grilla.getPosiciones();
+        //            this.grilla = new Grilla(datos, posiciones, filas, columnas);
+        return grilla.cantidadObjetivosCompletados();
     }
 }

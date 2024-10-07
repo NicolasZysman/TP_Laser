@@ -28,11 +28,6 @@ public class Juego {
         nivel_actual.intercambiarBloques(posicion_bloque, nueva_posicion);
     }
 
-    public void printearLaser(int nivel_actual) {
-        Nivel nivel = niveles.get(nivel_actual - 1);
-        nivel.grilla.printearLaser();
-    }
-
     public boolean nivelTermiando(int numero_nivel) {
         Nivel nivel = niveles.get(numero_nivel-1);
         return nivel.resetear();

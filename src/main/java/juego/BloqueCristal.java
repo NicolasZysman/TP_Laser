@@ -12,7 +12,7 @@ public class BloqueCristal implements Bloque {
     }
 
     @Override
-    public boolean sePuedeMover() {
+    public boolean movible() {
         return true;
     }
 

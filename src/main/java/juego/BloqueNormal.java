@@ -18,7 +18,7 @@ public class BloqueNormal implements Bloque {
     }
 
     @Override
-    public boolean sePuedeMover() {
+    public boolean movible() {
         return false;
     }
 
