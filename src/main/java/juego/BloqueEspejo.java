@@ -35,7 +35,7 @@ public class BloqueEspejo implements Bloque {
                     y += 1;
                 }
                 case "SW" -> {
-                    nueva_direccion = "NO";
+                    nueva_direccion = "NW";
                     x -= 1;
                     y -= 1;
                 }
@@ -63,7 +63,7 @@ public class BloqueEspejo implements Bloque {
                     y += 1;
                 }
                 case "NE" -> {
-                    nueva_direccion = "NO";
+                    nueva_direccion = "NW";
                     x -= 1;
                     y -= 1;
                 }
