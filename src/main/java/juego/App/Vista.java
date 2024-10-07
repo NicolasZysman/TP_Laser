@@ -1,9 +1,9 @@
 package juego.App;
 
 import javafx.scene.layout.BorderPane;
-import juego.Juego;
-import juego.Grilla;
-import juego.Celda;
+import javafx.scene.shape.Line;
+import javafx.util.Pair;
+import juego.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Vista extends Application {
 
@@ -69,11 +70,21 @@ public class Vista extends Application {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
+        ArrayList<Pair<Integer, Integer>> laserPositions = grilla.printearLaser();
+
+        for (int j = 0; j < columnas; j++) {
+            for (int i = 0; i < filas; i++) {
                 Celda celda = grilla.getCelda(i, j);
                 StackPane cellPane = createCeldaPane(celda, i, j);
-                gridPane.add(cellPane, j, i);
+
+                if (laserPositions.contains(new Pair<>(i, j))) {
+                    Line line = new Line(0, 0, 40, 40); // Ajusta las coordenadas según el tamaño de tus celdas
+                    line.setStrokeWidth(2);
+                    line.setStroke(Color.RED);
+                    gridPane.add(line, j, i);
+                } else {
+                    gridPane.add(cellPane, j, i);
+                }
             }
         }
     }
@@ -102,13 +113,13 @@ public class Vista extends Application {
                 rect.setFill(Color.GRAY);
                 break;
             case 'R':
-                rect.setFill(Color.BLUE);
+                rect.setFill(Color.TURQUOISE);
                 break;
             case 'G':
                 rect.setFill(Color.GREEN);
                 break;
             case 'C':
-                rect.setFill(Color.PURPLE);
+                rect.setFill(Color.LIGHTCYAN);
                 break;
             case 'E':
                 rect.setFill(Color.RED);
