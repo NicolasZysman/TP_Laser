@@ -72,13 +72,22 @@ public class Nivel {
         Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
         Bloque tipo_bloque2 = bloque2.getBloque();
 
-        if (!tipo_bloque1.SePuedeMover() || tipo_bloque1.EsUnBloqueNormal() || !tipo_bloque2.EsUnBloqueNormal() || tipo_bloque2.BloqueVacio()) {
+        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.SePuedeMover() || tipo_bloque1.EsUnBloqueNormal() || !tipo_bloque2.EsUnBloqueNormal() || tipo_bloque2.BloqueVacio()) {
             return;
         }
 
         grilla.intercambiar(bloque1, bloque2);
         grilla.regenerarLaser();
         grilla.printearLaser();
+    }
+
+    private boolean posicionesInvalidas(int[] posicion_bloque, int[] nueva_posicion) {
+        int x1 = posicion_bloque[0];
+        int y1 = posicion_bloque[1];
+        int x2 = nueva_posicion[0];
+        int y2 = nueva_posicion[1];
+
+        return x1 % 2 == 0 || y1 % 2 == 0 || x2 % 2 == 0 || y2 % 2 == 0;
     }
 
     public boolean resetear() {
