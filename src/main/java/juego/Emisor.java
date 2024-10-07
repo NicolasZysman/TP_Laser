@@ -2,7 +2,6 @@ package juego;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class Emisor {
     private Laser primer_laser;

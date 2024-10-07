@@ -70,19 +70,11 @@ public class Laser {
         return this.posicion_final;
     }
 
-    public String getDireccion() {
-        return this.direccion;
-    }
-
     public Laser getSiguiente() {
         return this.siguiente;
     }
 
     public Laser getAlternativo() {
         return this.alternativo;
-    }
-
-    public boolean esObjetivo(int[] posicion) {
-        return posicion == posicion_inicial || posicion == posicion_final;
     }
 }

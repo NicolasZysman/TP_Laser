@@ -1,7 +1,5 @@
 package juego;
 
-import javafx.util.Pair;
-
 import java.io.File;
 import java.util.ArrayList;
 

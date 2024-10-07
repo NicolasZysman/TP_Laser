@@ -3,9 +3,6 @@ package juego;
 public class Celda {
     public Bloque bloque;
     public char identificador;
-    private boolean esEmisor;
-    private boolean esObjetivo;
-    private boolean bloqueVacio;
 
     public Celda(char tipoBloque) {
         this.identificador = tipoBloque;
@@ -26,11 +23,10 @@ public class Celda {
                 this.bloque = new BloqueCristal();
                 break;
             case '.':
-                this.bloque = new BloqueNormal(false); // juego.Celda vacía
+                this.bloque = new BloqueNormal(false);
                 break;
             default:
                 this.bloque = new BloqueNormal(true);
-                // espacio vacio
         }
     }
 
