@@ -6,14 +6,17 @@ import java.util.Objects;
 
 public class Nivel {
     public Grilla grilla;
+    private ArrayList<String> datos;
 
     public Nivel(File informacion) {
-        ArrayList<String> lineas = getLineas(informacion);
-        int[] fila_y_columna = getFilasColumnas(lineas);
+        this.datos = getLineas(informacion);
+        int[] fila_y_columna = getFilasColumnas();
         int filas = fila_y_columna[0];
         int columnas = fila_y_columna[1];
-        ArrayList<String> posiciones = getPosiciones(lineas, filas);
-        this.grilla = new Grilla(lineas, posiciones, filas, columnas);
+        ArrayList<String> posiciones = getPosiciones(filas);
+        filas = (filas * 2) + 1;
+        columnas = (columnas * 2) + 1;
+        this.grilla = new Grilla(datos, posiciones, filas, columnas);
     }
 
     private ArrayList<String> getLineas(File archivo) {
@@ -36,10 +39,10 @@ public class Nivel {
         return lineas;
     }
 
-    private int[] getFilasColumnas(ArrayList<String> lineas) {
+    private int[] getFilasColumnas() {
         int fila = 0;
         int columna = 0;
-        for (String elemento : lineas) {
+        for (String elemento : datos) {
             if (elemento.startsWith("E")) {
                 return new int[]{fila, columna};
             }
@@ -53,12 +56,12 @@ public class Nivel {
         return new int[]{fila, columna};
     }
 
-    private ArrayList<String> getPosiciones(ArrayList<String> lineas, int filas) {
+    private ArrayList<String> getPosiciones(int filas) {
         ArrayList<String> posiciones = new ArrayList<>();
 
-        posiciones.addAll(lineas.subList(filas, lineas.size()));
+        posiciones.addAll(datos.subList(filas, datos.size()));
 
-        lineas.subList(filas, lineas.size()).clear();
+        datos.subList(filas, datos.size()).clear();
 
         return posiciones;
     }
@@ -78,5 +81,15 @@ public class Nivel {
         grilla.printearLaser();
     }
 
-    public void reset() {}
+    public boolean resetear() {
+        if (grilla.CantidadObjetivosCompletados()) {
+            int filas = grilla.getFila();
+            int columnas = grilla.getColumna();
+            ArrayList<String> posiciones = grilla.getPosiciones();
+            this.grilla = new Grilla(datos, posiciones, filas, columnas);
+            return true;
+        }
+
+        return false;
+    }
 }

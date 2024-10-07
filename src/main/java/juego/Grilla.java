@@ -13,16 +13,14 @@ public class Grilla {
     private ArrayList<int[]> finales;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
-        this.fila = (fila * 2) + 1;
-        this.columna = (columna * 2) + 1;
+        this.fila = fila;
+        this.columna = columna;
         this.matriz = new Celda[this.fila][this.columna];
-        this.emisores = new ArrayList<Emisor>();
+        this.emisores = new ArrayList<>();
         this.posiciones = posiciones;
-//        System.out.printf("fila: %d columna: %d\n", this.fila, this.columna);
+        this.finales = new ArrayList<>();
         inicializarMatriz(lineas);
         agregarEmisorObjetivo();
-        //printearMatriz();
-        //printearLaser();
     }
 
     private void inicializarMatriz(ArrayList<String> lineas) {
@@ -71,6 +69,10 @@ public class Grilla {
 
     public int getColumna() { return columna; }
 
+    public ArrayList<String> getPosiciones() {
+        return this.posiciones;
+    }
+
     public void mostrarMatriz() {
         for (Celda[] fila : matriz) {
             for (Celda celda : fila) {
@@ -102,13 +104,8 @@ public class Grilla {
             if (tipo == 'E') {
                 this.emisores.add(new Emisor(x, y, partes[3], this));
             } else {
-//                finales.add(new int[] {x, y});
-                System.out.println("x: " + x + ", y: " + y);
+                finales.add(new int[] {x, y});
             }
-
-//            System.out.println(posicion);
-
-//            System.out.println("x: " + x + ", y: " + y);
 
             matriz[x][y] = new Celda(tipo);
         }
@@ -155,6 +152,20 @@ public class Grilla {
 
     public void regenerarLaser() {
         emisores.clear();
+        finales.clear();
         agregarEmisorObjetivo();
+    }
+
+    public boolean CantidadObjetivosCompletados() {
+        int contador = 0;
+        for (Emisor emisor : emisores) {
+            contador += emisor.contarObjetivos(emisor.getPrimerLaser(), finales);
+        }
+
+        if (contador == finales.size()) {
+            return true;
+        }
+
+        return false;
     }
 }

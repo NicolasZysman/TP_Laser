@@ -30,7 +30,9 @@ public class Laser {
             if (nueva_posicion.length > 3) {
                 int x2 = Integer.parseInt(nueva_posicion[3]);
                 int y2 = Integer.parseInt(nueva_posicion[4]);
-                this.alternativo = new Laser(new int[] {x2, y2}, nueva_posicion[5], grilla);
+                this.alternativo = new Laser(new int[] {posicion_inicial[0], posicion_inicial[1]}, nueva_posicion[5], grilla);
+            } else {
+                this.alternativo = null;
             }
         }
     }
@@ -80,15 +82,7 @@ public class Laser {
         return this.alternativo;
     }
 
-
-
-    // cada trazado verifica el proixmo bloque
-
-    // preguntamos tipo de bloque
-
-    // Si va al norte, posicion par, fijar arriba
-    // Si va al sur, posicion par, fijar abajo
-    // Si va  al este, es impar, miro a la derecha
-    // Si va al oeste, es impar, miro a la izquierda
-
+    public boolean esObjetivo(int[] posicion) {
+        return posicion == posicion_inicial || posicion == posicion_final;
+    }
 }

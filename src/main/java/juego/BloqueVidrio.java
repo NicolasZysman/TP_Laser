@@ -35,6 +35,7 @@ public class BloqueVidrio implements Bloque {
                 nueva_direccion += "N";
             } else {
                 x2 = x + 1;
+                nueva_direccion += "S";
             }
         } else {
             x1 = x - 1;
@@ -43,6 +44,7 @@ public class BloqueVidrio implements Bloque {
                 nueva_direccion += "S";
             } else {
                 x2 = x - 1;
+                nueva_direccion += "N";
             }
         }
 
@@ -53,6 +55,7 @@ public class BloqueVidrio implements Bloque {
                 nueva_direccion += "W";
             } else {
                 y2 = y + 1;
+                nueva_direccion += "E";
             }
         } else {
             y1 = y - 1;
@@ -61,6 +64,7 @@ public class BloqueVidrio implements Bloque {
                 nueva_direccion += "E";
             } else {
                 y2 = y - 1;
+                nueva_direccion += "W";
             }
         }
 
