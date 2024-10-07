@@ -2,11 +2,11 @@ package juego;
 
 public interface Bloque {
 
-    public boolean BloqueVacio();
+    boolean bloqueVacio();
 
-    public boolean EsUnBloqueNormal();
+    boolean esUnBloqueNormal();
 
-    public boolean SePuedeMover();
+    boolean sePuedeMover();
 
-    public String[] interactuarConLaser(int[] posicion_inicial, String direccion);
+    String[] interactuarConLaser(int[] posicion_inicial, String direccion);
 }

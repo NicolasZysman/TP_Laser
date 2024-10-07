@@ -5,12 +5,12 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class Grilla {
-    private int fila;
-    private int columna;
-    private Celda[][] matriz;
-    private ArrayList<Emisor> emisores;
-    private ArrayList<String> posiciones;
-    private ArrayList<int[]> finales;
+    private final int fila;
+    private final int columna;
+    private final Celda[][] matriz;
+    private final ArrayList<Emisor> emisores;
+    private final ArrayList<String> posiciones;
+    private final ArrayList<int[]> finales;
 
     public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
         this.fila = fila;
@@ -143,10 +143,6 @@ public class Grilla {
             contador += emisor.contarObjetivos(emisor.getPrimerLaser(), finales);
         }
 
-        if (contador == finales.size()) {
-            return true;
-        }
-
-        return false;
+        return contador == finales.size();
     }
 }

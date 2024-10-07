@@ -1,24 +1,24 @@
 package juego;
 
 public class BloqueNormal implements Bloque {
-    private boolean vacio;
+    private final boolean vacio;
 
     public BloqueNormal(boolean vacio) {
         this.vacio = vacio;
     }
 
     @Override
-    public boolean BloqueVacio() {
+    public boolean bloqueVacio() {
         return vacio;
     }
 
     @Override
-    public boolean EsUnBloqueNormal() {
+    public boolean esUnBloqueNormal() {
         return true;
     }
 
     @Override
-    public boolean SePuedeMover() {
+    public boolean sePuedeMover() {
         return false;
     }
 

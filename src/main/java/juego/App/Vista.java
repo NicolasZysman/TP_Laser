@@ -48,7 +48,7 @@ public class Vista extends Application {
             levelButton.setOnAction(event -> {
 //                nivelActual = nivel;
                 resetearNivel(nivel + 1); //habria que separalo en dos metodos un resetarNivel y otra crearNivel()
-                Grilla grilla = juego.niveles.get(0).grilla; //get(0) porque niveles siempre va a tener solo 1 nivel
+                Grilla grilla = juego.getNivel(1).grilla; //get(0) porque niveles siempre va a tener solo 1 nivel
                 actualizarVista(grilla);
             });
             levelButtons.getChildren().add(levelButton);
@@ -90,14 +90,14 @@ public class Vista extends Application {
     }
 
     public void resetearNivel(int nivel) {
-        if (juego.niveles.isEmpty()) {
+        if (juego.getNiveles().isEmpty()) {
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
-            System.out.println("Primer nivel: " + juego.niveles);
+            System.out.println("Primer nivel: " + juego.getNiveles());
         } else {
-            System.out.println("Antes de eliminar nivel: " + juego.niveles);
-            juego.niveles.removeFirst();
+            System.out.println("Antes de eliminar nivel: " + juego.getNiveles());
+            juego.getNiveles().removeFirst();
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
-            System.out.println("Despues de eliminar nivel: " + juego.niveles);
+            System.out.println("Despues de eliminar nivel: " + juego.getNiveles());
         }
     }
 
@@ -149,7 +149,7 @@ public class Vista extends Application {
 
                 juego.moverBloque(posicionBloque, nuevaPosicion, 1);
 
-                actualizarVista(juego.niveles.get(0).grilla);
+                actualizarVista(juego.getNiveles().get(0).grilla);
                 bloqueSeleccionado = false;
             }
         });

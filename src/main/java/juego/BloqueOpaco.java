@@ -1,24 +1,24 @@
 package juego;
 
 public class BloqueOpaco implements Bloque {
-    private boolean movible;
+    private final boolean movible;
 
     public BloqueOpaco(boolean movible) {
         this.movible = movible;
     }
 
     @Override
-    public boolean BloqueVacio() {
+    public boolean bloqueVacio() {
         return false;
     }
 
     @Override
-    public boolean EsUnBloqueNormal() {
+    public boolean esUnBloqueNormal() {
         return false;
     }
 
     @Override
-    public boolean SePuedeMover() {
+    public boolean sePuedeMover() {
         return movible;
     }
 

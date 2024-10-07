@@ -2,17 +2,17 @@ package juego;
 
 public class BloqueCristal implements Bloque {
     @Override
-    public boolean BloqueVacio() {
+    public boolean bloqueVacio() {
         return false;
     }
 
     @Override
-    public boolean EsUnBloqueNormal() {
+    public boolean esUnBloqueNormal() {
         return false;
     }
 
     @Override
-    public boolean SePuedeMover() {
+    public boolean sePuedeMover() {
         return true;
     }
 
@@ -36,5 +36,5 @@ public class BloqueCristal implements Bloque {
         }
 
         return new String[] {String.valueOf(x), String.valueOf(y), direccion};
-    };
+    }
 }
