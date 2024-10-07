@@ -1,35 +1,30 @@
 package juego;
 
 public class Laser {
-    private int[] posicion_inicial;
-    private int[] posicion_final;
-    private String direccion;
-    private Grilla grilla;
-    private Laser siguiente;
-    private Laser alternativo;
+    private final int[] posicion_inicial;
+    private final int[] posicion_final;
+    private final Grilla grilla;
+    private final Laser siguiente;
+    private final Laser alternativo;
 
     public Laser(int[] posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
         this.grilla = grilla;
         String[] nueva_posicion = verificarBloque(direccion);
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
 
         if (nueva_posicion == null) {
             this.posicion_final = null;
-            this.direccion = null;
             this.siguiente = null;
             this.alternativo = null;
         } else {
             x = Integer.parseInt(nueva_posicion[0]);
             y = Integer.parseInt(nueva_posicion[1]);
             this.posicion_final = new int[] {x, y};
-            this.direccion = nueva_posicion[2];
             this.siguiente = new Laser(new int[] {x, y}, nueva_posicion[2], grilla);
 
             if (nueva_posicion.length > 3) {
-                int x2 = Integer.parseInt(nueva_posicion[3]);
-                int y2 = Integer.parseInt(nueva_posicion[4]);
                 this.alternativo = new Laser(new int[] {posicion_inicial[0], posicion_inicial[1]}, nueva_posicion[5], grilla);
             } else {
                 this.alternativo = null;
@@ -38,7 +33,7 @@ public class Laser {
     }
 
     private String[] verificarBloque(String direccion) {
-        Celda celda_del_medio = null;
+        Celda celda_del_medio;
         if (posicion_inicial[0] % 2 == 0) {
             if (direccion.startsWith("S")) {
                 celda_del_medio = grilla.getCelda(posicion_inicial[0]+1, posicion_inicial[1]);
@@ -57,9 +52,7 @@ public class Laser {
             return null;
         }
 
-        String[] nueva_posicion = celda_del_medio.interactuar(this.posicion_inicial, direccion);
-
-        return nueva_posicion;
+        return celda_del_medio.interactuar(this.posicion_inicial, direccion);
     }
 
     public int[] getPosicionInicial() {

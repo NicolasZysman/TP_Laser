@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Nivel {
     public Grilla grilla;
-    private ArrayList<String> datos;
+    private final ArrayList<String> datos;
 
     public Nivel(File informacion) {
         this.datos = getLineas(informacion);
@@ -23,7 +23,7 @@ public class Nivel {
         ClassLoader classLoader = getClass().getClassLoader();
 
         String fileName = archivo.getName();
-        ArrayList<String> lineas = new ArrayList<String>();
+        ArrayList<String> lineas = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(classLoader.getResourceAsStream("levels/" + fileName))))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -57,9 +57,8 @@ public class Nivel {
     }
 
     private ArrayList<String> getPosiciones(int filas) {
-        ArrayList<String> posiciones = new ArrayList<>();
 
-        posiciones.addAll(datos.subList(filas, datos.size()));
+        ArrayList<String> posiciones = new ArrayList<>(datos.subList(filas, datos.size()));
 
         datos.subList(filas, datos.size()).clear();
 
@@ -72,13 +71,13 @@ public class Nivel {
         Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
         Bloque tipo_bloque2 = bloque2.getBloque();
 
-        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.SePuedeMover() || tipo_bloque1.EsUnBloqueNormal() || !tipo_bloque2.EsUnBloqueNormal() || tipo_bloque2.BloqueVacio()) {
+        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.movible() || tipo_bloque1.esUnBloqueNormal() || !tipo_bloque2.esUnBloqueNormal() || tipo_bloque2.bloqueVacio()) {
             return;
         }
 
         grilla.intercambiar(bloque1, bloque2);
         grilla.regenerarLaser();
-        grilla.printearLaser();
+        grilla.devolverPosicionesLaser();
     }
 
     private boolean posicionesInvalidas(int[] posicion_bloque, int[] nueva_posicion) {
@@ -91,14 +90,10 @@ public class Nivel {
     }
 
     public boolean resetear() {
-        if (grilla.CantidadObjetivosCompletados()) {
-//            int filas = grilla.getFila();
-//            int columnas = grilla.getColumna();
-//            ArrayList<String> posiciones = grilla.getPosiciones();
-//            this.grilla = new Grilla(datos, posiciones, filas, columnas);
-            return true;
-        }
-
-        return false;
+        //            int filas = grilla.getFila();
+        //            int columnas = grilla.getColumna();
+        //            ArrayList<String> posiciones = grilla.getPosiciones();
+        //            this.grilla = new Grilla(datos, posiciones, filas, columnas);
+        return grilla.cantidadObjetivosCompletados();
     }
 }

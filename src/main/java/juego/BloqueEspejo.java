@@ -3,27 +3,23 @@ package juego;
 public class BloqueEspejo implements Bloque {
 
     @Override
-    public boolean BloqueVacio() {
+    public boolean bloqueVacio() {
         return false;
     }
 
     @Override
-    public boolean EsUnBloqueNormal() {
+    public boolean esUnBloqueNormal() {
         return false;
     }
 
     @Override
-    public boolean SePuedeMover() {
+    public boolean movible() {
         return true;
     }
 
     @Override
     public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
-        // SE: (x+1, y-1)
-        // SO: (x+1, y+1)
-        // NE: (x-1, y-1)
-        // NO: (x-1, y+1)
-        String nueva_direccion = "";
+        String nueva_direccion;
         int x = posicion_inicial[0];
         int y = posicion_inicial[1];
 
@@ -76,7 +72,7 @@ public class BloqueEspejo implements Bloque {
         }
 
         return new String[] {String.valueOf(x), String.valueOf(y), nueva_direccion};
-    };
+    }
 
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Emisor {
-    private Laser primer_laser;
+    private final Laser primer_laser;
 
     public Emisor(int x, int y, String direccion, Grilla grilla) {
         this.primer_laser = new Laser(new int[] {x, y}, direccion, grilla);

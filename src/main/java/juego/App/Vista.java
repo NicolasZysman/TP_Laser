@@ -1,7 +1,6 @@
 package juego.App;
 
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -47,10 +46,10 @@ public class Vista extends Application {
         for (int i = 0; i < 6; i++) {
             Button levelButton = new Button("Level " + (i + 1));
             int nivel = i;
-            levelButton.setOnAction(event -> {
+            levelButton.setOnAction(_ -> {
 //                nivelActual = nivel;
                 resetearNivel(nivel + 1); //habria que separalo en dos metodos un resetarNivel y otra crearNivel()
-                Grilla grilla = juego.niveles.get(0).grilla; //get(0) porque niveles siempre va a tener solo 1 nivel
+                Grilla grilla = juego.getNivel(1).grilla; //get(0) porque niveles siempre va a tener solo 1 nivel
                 actualizarVista(grilla);
             });
             levelButtons.getChildren().add(levelButton);
@@ -72,7 +71,7 @@ public class Vista extends Application {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.printearLaser();
+        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.devolverPosicionesLaser();
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -93,10 +92,10 @@ public class Vista extends Application {
     }
 
     public void resetearNivel(int nivel) {
-        if (juego.niveles.isEmpty()) {
+        if (juego.getNiveles().isEmpty()) {
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
         } else {
-            juego.niveles.removeFirst();
+            juego.getNiveles().removeFirst();
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
         }
     }
@@ -105,22 +104,21 @@ public class Vista extends Application {
     private StackPane createCeldaPane(Celda celda, int fila, int columna) {
         Rectangle rect = new Rectangle(40, 40);
         rect.setStroke(Color.BLACK);
-        Text text = null;
         switch (celda.getIdentificador()) {
             case 'F':
                 rect.setFill(Color.BLACK);
                 break;
             case 'B':
-                rect.setFill(Color.PINK);
+                rect.setFill(Color.SADDLEBROWN);
                 break;
             case 'R':
-                rect.setFill(Color.TURQUOISE);
+                rect.setFill(Color.DARKCYAN);
                 break;
             case 'G':
-                rect.setFill(Color.GREEN);
+                rect.setFill(Color.LIGHTCYAN);
                 break;
             case 'C':
-                rect.setFill(Color.LIGHTCYAN);
+                rect.setFill(Color.LIGHTSEAGREEN);
                 break;
             case 'E':
                 rect.setFill(Color.PURPLE);
@@ -150,12 +148,9 @@ public class Vista extends Application {
 
         StackPane pane = new StackPane();
         pane.getChildren().add(rect);
-        if (text != null) {
-            pane.getChildren().add(text);
-        }
 
         //primer if es el primer click, el else es el segundo click
-        pane.setOnMouseClicked(event -> {
+        pane.setOnMouseClicked(_ -> {
             if (!bloqueSeleccionado) {
                 posicionBloque = new int[]{fila, columna};
                 bloqueSeleccionado = true;
@@ -164,7 +159,7 @@ public class Vista extends Application {
 
                 if (!juego.nivelTermiando(1)) {
                     juego.moverBloque(posicionBloque, nuevaPosicion, 1);
-                    actualizarVista(juego.niveles.get(0).grilla);
+                    actualizarVista(juego.getNiveles().getFirst().grilla);
                 }
 
                 bloqueSeleccionado = false;
