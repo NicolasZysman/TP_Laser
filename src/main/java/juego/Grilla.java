@@ -90,7 +90,7 @@ public class Grilla {
         }
     }
 
-    public void printearLaser() {
+    public ArrayList<Pair<Integer, Integer>> printearLaser() {
         ArrayList<Pair<Integer, Integer>> posiciones = new ArrayList<>();
         for (Emisor emisor : emisores) {
             Laser laser_actual = emisor.getPrimerLaser();
@@ -107,6 +107,8 @@ public class Grilla {
             }
             System.out.print("\n");
         }
+
+        return posiciones;
     }
 
     private void PrintearLaserRecursivo(ArrayList<Pair<Integer, Integer>> posiciones, Laser actual) {
