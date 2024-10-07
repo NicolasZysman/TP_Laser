@@ -27,22 +27,22 @@ public class VistaControlador {
     public VistaControlador(Juego juego, ComponentesVista componentesVista) {
         this.juego = juego;
         this.componentesVista = componentesVista;
-        setupEventHandlers();
+        handlerBotones();
     }
 
     public void start() {
         resetearNivel(1);
     }
 
-    private void setupEventHandlers() {
-        VBox levelButtons = componentesVista.getLevelButtons();
-        for (var node : levelButtons.getChildren()) {
-            if (node instanceof Button) {
-                Button levelButton = (Button) node;
-                levelButton.setOnAction(new EventHandler<ActionEvent>() {
+    private void handlerBotones() {
+        VBox botonesNiveles = componentesVista.getLevelButtons();
+        for (var nodo : botonesNiveles.getChildren()) {
+            if (nodo instanceof Button) {
+                Button botonNivel = (Button) nodo;
+                botonNivel.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        int nivel = (int) levelButton.getUserData();
+                        int nivel = (int) botonNivel.getUserData();
                         resetearNivel(nivel);
                         Grilla grilla = juego.getNivel(1).grilla;
                         actualizarVista(grilla);
@@ -91,28 +91,28 @@ public class VistaControlador {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 Celda celda = grilla.getCelda(i, j);
-                StackPane cellPane = crearCelda(celda, i, j);
+                StackPane pane = crearCelda(celda, i, j);
 
                 if (celda.getIdentificador() == 'E') {
-                    componentesVista.getGridPane().add(cellPane, j, i);
+                    componentesVista.getGridPane().add(pane, j, i);
                 } else if (posicionesLaser.contains(new Pair<>(i, j))) {
                     Rectangle rect = new Rectangle(40, 40, Color.RED);
                     componentesVista.getGridPane().add(rect, j, i);
                 } else {
-                    componentesVista.getGridPane().add(cellPane, j, i);
+                    componentesVista.getGridPane().add(pane, j, i);
                 }
             }
         }
     }
 
     private StackPane crearCelda(Celda celda, int fila, int columna) {
-        VistaCelda cellView = new VistaCelda(celda, fila, columna);
-        StackPane pane = cellView.getPane();
-        pane.setOnMouseClicked(event -> handleCellClick(fila, columna));
+        VistaCelda vistaCelda = new VistaCelda(celda, fila, columna);
+        StackPane pane = vistaCelda.getPane();
+        pane.setOnMouseClicked(event -> handleClickCelda(fila, columna));
         return pane;
     }
 
-    private void handleCellClick(int fila, int columna) {
+    private void handleClickCelda(int fila, int columna) {
         if (!bloqueSeleccionado) {
             posicionBloque = new int[]{fila, columna};
             bloqueSeleccionado = true;

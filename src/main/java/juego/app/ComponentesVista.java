@@ -14,26 +14,26 @@ public class ComponentesVista {
     private final Stage stage;
     private final Juego juego;
     private final GridPane gridPane;
-    private final VBox levelButtons;
+    private final VBox botonNiveles;
 
     public ComponentesVista(Stage stage, Juego juego) {
         this.stage = stage;
         this.juego = juego;
         this.gridPane = new GridPane();
-        this.levelButtons = new VBox(10);
+        this.botonNiveles = new VBox(10);
 
-        setupLayout();
+        escena();
     }
 
-    private void setupLayout() {
+    private void escena() {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setGridLinesVisible(false);
 
-        levelButtons.setAlignment(Pos.TOP_LEFT);
-        createLevelButtons();
+        botonNiveles.setAlignment(Pos.TOP_LEFT);
+        crearBotonesNiveles();
 
         BorderPane root = new BorderPane();
-        root.setLeft(levelButtons);
+        root.setLeft(botonNiveles);
         root.setCenter(gridPane);
 
         Scene scene = new Scene(root, 800, 600, Color.BLACK);
@@ -42,11 +42,11 @@ public class ComponentesVista {
         stage.show();
     }
 
-    private void createLevelButtons() {
+    private void crearBotonesNiveles() {
         for (int i = 1; i <= 6; i++) {
-            Button levelButton = new Button("Level " + i);
-            levelButton.setUserData(i);
-            levelButtons.getChildren().add(levelButton);
+            Button botonNivel = new Button("Nivel " + i);
+            botonNivel.setUserData(i);
+            botonNiveles.getChildren().add(botonNivel);
         }
     }
 
@@ -55,6 +55,6 @@ public class ComponentesVista {
     }
 
     public VBox getLevelButtons() {
-        return levelButtons;
+        return botonNiveles;
     }
 }

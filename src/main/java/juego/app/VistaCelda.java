@@ -16,10 +16,10 @@ public class VistaCelda{
         this.fila = fila;
         this.columna = columna;
         this.pane = new StackPane();
-        renderCell();
+        renderCelda();
     }
 
-    private void renderCell() {
+    private void renderCelda() {
         Rectangle rect = new Rectangle(40, 40);
         rect.setStroke(Color.BLACK);
         switch (celda.getIdentificador()) {
