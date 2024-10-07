@@ -107,7 +107,11 @@ public class Grilla {
                 finales.add(new int[] {x, y});
             }
 
-            matriz[x][y] = new Celda(tipo);
+            if (tipo == 'G') {
+                matriz[x][y] = new Celda(Character.toLowerCase(tipo));
+            } else {
+                matriz[x][y] = new Celda(tipo);
+            }
         }
     }
 

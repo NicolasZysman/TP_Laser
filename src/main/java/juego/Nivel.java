@@ -83,10 +83,10 @@ public class Nivel {
 
     public boolean resetear() {
         if (grilla.CantidadObjetivosCompletados()) {
-            int filas = grilla.getFila();
-            int columnas = grilla.getColumna();
-            ArrayList<String> posiciones = grilla.getPosiciones();
-            this.grilla = new Grilla(datos, posiciones, filas, columnas);
+//            int filas = grilla.getFila();
+//            int columnas = grilla.getColumna();
+//            ArrayList<String> posiciones = grilla.getPosiciones();
+//            this.grilla = new Grilla(datos, posiciones, filas, columnas);
             return true;
         }
 

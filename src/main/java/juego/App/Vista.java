@@ -72,16 +72,18 @@ public class Vista extends Application {
 
         ArrayList<Pair<Integer, Integer>> laserPositions = grilla.printearLaser();
 
-        for (int j = 0; j < columnas; j++) {
-            for (int i = 0; i < filas; i++) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
                 Celda celda = grilla.getCelda(i, j);
                 StackPane cellPane = createCeldaPane(celda, i, j);
 
                 if (laserPositions.contains(new Pair<>(i, j))) {
-                    Line line = new Line(0, 0, 40, 40); // Ajusta las coordenadas según el tamaño de tus celdas
-                    line.setStrokeWidth(2);
-                    line.setStroke(Color.RED);
-                    gridPane.add(line, j, i);
+//                    Line line = new Line(0, 0, 40, 40); // Ajusta las coordenadas según el tamaño de tus celdas
+//                    line.setStrokeWidth(2);
+//                    line.setStroke(Color.RED);
+                    Rectangle rect = new Rectangle(40, 40);
+                    rect.setFill(Color.RED);
+                    gridPane.add(rect, j, i);
                 } else {
                     gridPane.add(cellPane, j, i);
                 }
@@ -105,12 +107,13 @@ public class Vista extends Application {
     private StackPane createCeldaPane(Celda celda, int fila, int columna) {
         Rectangle rect = new Rectangle(40, 40);
         rect.setStroke(Color.BLACK);
+        System.out.println("Celda: " + celda.getIdentificador());
         switch (celda.getIdentificador()) {
             case 'F':
                 rect.setFill(Color.BLACK);
                 break;
             case 'B':
-                rect.setFill(Color.GRAY);
+                rect.setFill(Color.PINK);
                 break;
             case 'R':
                 rect.setFill(Color.TURQUOISE);
@@ -127,8 +130,11 @@ public class Vista extends Application {
             case 'O':
                 rect.setFill(Color.RED);
                 break;
+            case 'g':
+                rect.setFill(Color.GOLD);
+                break;
             case '.':
-                rect.setFill(Color.WHITE);
+                rect.setFill(Color.GRAY);
                 break;
             default:
                 rect.setFill(Color.WHITE);
@@ -147,9 +153,11 @@ public class Vista extends Application {
             } else {
                 int[] nuevaPosicion = {fila, columna};
 
-                juego.moverBloque(posicionBloque, nuevaPosicion, 1);
+                if (!juego.nivelTermiando(1)) {
+                    juego.moverBloque(posicionBloque, nuevaPosicion, 1);
+                    actualizarVista(juego.niveles.get(0).grilla);
+                }
 
-                actualizarVista(juego.niveles.get(0).grilla);
                 bloqueSeleccionado = false;
             }
         });
