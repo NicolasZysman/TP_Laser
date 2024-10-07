@@ -27,7 +27,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>juego.App.Vista</mainClass>
+                    <mainClass>juego.app.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
