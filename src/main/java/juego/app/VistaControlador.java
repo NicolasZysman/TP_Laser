@@ -44,7 +44,7 @@ public class VistaControlador {
                     public void handle(ActionEvent event) {
                         int nivel = (int) levelButton.getUserData();
                         resetearNivel(nivel);
-                        Grilla grilla = juego.niveles.getFirst().grilla;
+                        Grilla grilla = juego.getNivel(1).grilla;
                         actualizarVista(grilla);
                     }
                 });
@@ -53,10 +53,10 @@ public class VistaControlador {
     }
 
     private void resetearNivel(int nivel) {
-        if (juego.niveles.isEmpty()) {
+        if (juego.getNiveles().isEmpty()) {
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
         } else {
-            juego.niveles.removeFirst();
+            juego.getNiveles().removeFirst();
             juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
         }
     }
@@ -86,7 +86,7 @@ public class VistaControlador {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.printearLaser();
+        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.devolverPosicionesLaser();
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -121,7 +121,7 @@ public class VistaControlador {
 
             if (!juego.nivelTermiando(1)) {
                 juego.moverBloque(posicionBloque, nuevaPosicion, 1);
-                actualizarVista(juego.niveles.getFirst().grilla);
+                actualizarVista(juego.getNiveles().getFirst().grilla);
             }
 
             bloqueSeleccionado = false;

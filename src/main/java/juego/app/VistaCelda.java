@@ -27,16 +27,16 @@ public class VistaCelda{
                 rect.setFill(Color.BLACK);
                 break;
             case 'B':
-                rect.setFill(Color.PINK);
+                rect.setFill(Color.SADDLEBROWN);
                 break;
             case 'R':
-                rect.setFill(Color.TURQUOISE);
+                rect.setFill(Color.DARKCYAN);
                 break;
             case 'G':
-                rect.setFill(Color.GREEN);
+                rect.setFill(Color.LIGHTCYAN);
                 break;
             case 'C':
-                rect.setFill(Color.LIGHTCYAN);
+                rect.setFill(Color.LIGHTSEAGREEN);
                 break;
             case 'E':
                 rect.setFill(Color.PURPLE);
@@ -51,7 +51,11 @@ public class VistaCelda{
                 if (fila % 2 == 0) {
                     rect.setFill(Color.GRAY);
                 } else {
-                    rect.setFill((columna % 2 == 0) ? Color.GRAY : Color.LIGHTGRAY);
+                    if (columna % 2 == 0) {
+                        rect.setFill(Color.GRAY);
+                    } else {
+                        rect.setFill(Color.LIGHTGRAY);
+                    }
                 }
                 break;
             default:
