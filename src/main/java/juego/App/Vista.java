@@ -78,7 +78,7 @@ public class Vista extends Application {
                 Celda celda = grilla.getCelda(i, j);
                 StackPane cellPane = createCeldaPane(celda, i, j);
 
-                if (celda.getIdentificador() == 'E') {
+                if (celda.identificador == 'E') {
                     gridPane.add(cellPane, j, i);
                 } else if (posicionesLaser.contains(new Pair<>(i, j))) {
                     Rectangle rect = new Rectangle(40, 40);
@@ -104,7 +104,7 @@ public class Vista extends Application {
     private StackPane createCeldaPane(Celda celda, int fila, int columna) {
         Rectangle rect = new Rectangle(40, 40);
         rect.setStroke(Color.BLACK);
-        switch (celda.getIdentificador()) {
+        switch (celda.identificador) {
             case 'F':
                 rect.setFill(Color.BLACK);
                 break;

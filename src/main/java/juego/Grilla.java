@@ -126,10 +126,10 @@ public class Grilla {
         inicializarLaser();
     }
 
-    public boolean cantidadObjetivosCompletados() {
+    public boolean objetivosCompletados() {
         int contador = 0;
         for (Emisor emisor : emisores) {
-            contador += emisor.contarObjetivos(emisor.getPrimerLaser(), finales);
+            contador += emisor.contarObjetivosCompletados(emisor.getPrimerLaser(), finales);
         }
 
         return contador == finales.size();

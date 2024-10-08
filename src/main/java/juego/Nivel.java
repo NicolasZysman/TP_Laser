@@ -67,9 +67,9 @@ public class Nivel {
 
     public void intercambiarBloques(int[] posicion_bloque, int[] nueva_posicion) {
         Celda bloque1 = grilla.getCelda(posicion_bloque[0], posicion_bloque[1]);
-        Bloque tipo_bloque1 = bloque1.getBloque();
+        Bloque tipo_bloque1 = bloque1.bloque;
         Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
-        Bloque tipo_bloque2 = bloque2.getBloque();
+        Bloque tipo_bloque2 = bloque2.bloque;
 
         if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.movible() || tipo_bloque1.esUnBloqueNormal() || !tipo_bloque2.esUnBloqueNormal() || tipo_bloque2.bloqueVacio()) {
             return;
@@ -89,11 +89,7 @@ public class Nivel {
         return x1 % 2 == 0 || y1 % 2 == 0 || x2 % 2 == 0 || y2 % 2 == 0;
     }
 
-    public boolean resetear() {
-        //            int filas = grilla.getFila();
-        //            int columnas = grilla.getColumna();
-        //            ArrayList<String> posiciones = grilla.getPosiciones();
-        //            this.grilla = new Grilla(datos, posiciones, filas, columnas);
-        return grilla.cantidadObjetivosCompletados();
+    public boolean nivelTerminado() {
+        return grilla.objetivosCompletados();
     }
 }

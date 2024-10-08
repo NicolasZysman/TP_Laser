@@ -14,7 +14,7 @@ public class Emisor {
         return this.primer_laser;
     }
 
-    public int contarObjetivos(Laser actual, ArrayList<int[]> finales) {
+    public int contarObjetivosCompletados(Laser actual, ArrayList<int[]> finales) {
         int contador = 0;
         if (actual == null) {
             return contador;
@@ -26,8 +26,8 @@ public class Emisor {
             }
         }
         
-        contador += contarObjetivos(actual.getSiguiente(), finales);
-        contador += contarObjetivos(actual.getAlternativo(), finales);
+        contador += contarObjetivosCompletados(actual.getSiguiente(), finales);
+        contador += contarObjetivosCompletados(actual.getAlternativo(), finales);
         
         return contador;
     }

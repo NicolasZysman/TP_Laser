@@ -30,15 +30,7 @@ public class Celda {
         }
     }
 
-    public char getIdentificador() {
-        return this.identificador;
-    }
-
     public String[] interactuar(int[] posicion_inicial, String direccion) {
         return this.bloque.interactuarConLaser(posicion_inicial, direccion);
-    }
-
-    public Bloque getBloque() {
-        return this.bloque;
     }
 }

@@ -30,6 +30,6 @@ public class Juego {
 
     public boolean nivelTermiando(int numero_nivel) {
         Nivel nivel = niveles.get(numero_nivel-1);
-        return nivel.resetear();
+        return nivel.nivelTerminado();
     }
 }
