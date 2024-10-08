@@ -1,4 +1,4 @@
-package juego.app;
+package juego.App;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,7 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Juego juego = new Juego();
-        ComponentesVista vistaView = new ComponentesVista(stage, juego);
+        ComponentesVista vistaView = new ComponentesVista(stage);
         VistaControlador vistaController = new VistaControlador(juego, vistaView);
         vistaController.start();
     }

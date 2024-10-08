@@ -1,4 +1,4 @@
-package juego.app;
+package juego.App;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -12,8 +12,6 @@ import juego.Grilla;
 import juego.Juego;
 import juego.Celda;
 import javafx.util.Pair;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,16 +35,12 @@ public class VistaControlador {
     private void handlerBotones() {
         VBox botonesNiveles = componentesVista.getLevelButtons();
         for (var nodo : botonesNiveles.getChildren()) {
-            if (nodo instanceof Button) {
-                Button botonNivel = (Button) nodo;
-                botonNivel.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        int nivel = (int) botonNivel.getUserData();
-                        resetearNivel(nivel);
-                        Grilla grilla = juego.getNivel(1).grilla;
-                        actualizarVista(grilla);
-                    }
+            if (nodo instanceof Button botonNivel) {
+                botonNivel.setOnAction(_ -> {
+                    int nivel = (int) botonNivel.getUserData();
+                    resetearNivel(nivel);
+                    Grilla grilla = juego.getNivel(1).grilla;
+                    actualizarVista(grilla);
                 });
             }
         }
@@ -93,7 +87,7 @@ public class VistaControlador {
                 Celda celda = grilla.getCelda(i, j);
                 StackPane pane = crearCelda(celda, i, j);
 
-                if (celda.getIdentificador() == 'E') {
+                if (celda.identificador == 'E') {
                     componentesVista.getGridPane().add(pane, j, i);
                 } else if (posicionesLaser.contains(new Pair<>(i, j))) {
                     Rectangle rect = new Rectangle(40, 40, Color.RED);
@@ -108,7 +102,7 @@ public class VistaControlador {
     private StackPane crearCelda(Celda celda, int fila, int columna) {
         VistaCelda vistaCelda = new VistaCelda(celda, fila, columna);
         StackPane pane = vistaCelda.getPane();
-        pane.setOnMouseClicked(event -> handleClickCelda(fila, columna));
+        pane.setOnMouseClicked(_ -> handleClickCelda(fila, columna));
         return pane;
     }
 

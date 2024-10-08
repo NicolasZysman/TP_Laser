@@ -1,4 +1,4 @@
-package juego.app;
+package juego.App;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,7 +22,7 @@ public class VistaCelda{
     private void renderCelda() {
         Rectangle rect = new Rectangle(40, 40);
         rect.setStroke(Color.BLACK);
-        switch (celda.getIdentificador()) {
+        switch (celda.identificador) {
             case 'F':
                 rect.setFill(Color.BLACK);
                 break;

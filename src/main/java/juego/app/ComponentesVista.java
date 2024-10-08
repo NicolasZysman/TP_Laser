@@ -1,4 +1,4 @@
-package juego.app;
+package juego.App;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,17 +8,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import juego.Juego;
 
 public class ComponentesVista {
     private final Stage stage;
-    private final Juego juego;
     private final GridPane gridPane;
     private final VBox botonNiveles;
 
-    public ComponentesVista(Stage stage, Juego juego) {
+    public ComponentesVista(Stage stage) {
         this.stage = stage;
-        this.juego = juego;
         this.gridPane = new GridPane();
         this.botonNiveles = new VBox(10);
 
