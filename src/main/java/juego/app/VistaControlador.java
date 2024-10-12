@@ -1,5 +1,7 @@
-package juego.App;
+package juego.app;
 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -61,18 +63,24 @@ public class VistaControlador {
         renderGrilla(grilla);
 
         if (juego.nivelTermiando(1)) {
-            Rectangle rect = new Rectangle(gridPane.getWidth(), gridPane.getHeight(), Color.GREEN);
-            rect.setOpacity(0.1);
+            Text textoNivelGanado = new Text("Nivel Ganado!");
+            textoNivelGanado.setFont(new Font(40));
+            textoNivelGanado.setFill(Color.WHITE);
+            textoNivelGanado.setOpacity(0.5);
 
-            Text texto = new Text("Nivel Ganado");
-            texto.setFont(Font.font(48));
-            texto.setFill(Color.RED);
-            texto.setStroke(Color.BLACK);
-            texto.setStrokeWidth(2);
-            texto.setTranslateX(250);
-            texto.setTranslateY(250);
+            Rectangle rect = new Rectangle();
+            rect.setFill(Color.GREEN);
+            rect.setOpacity(0.6);
+            rect.setWidth(textoNivelGanado.getBoundsInLocal().getWidth() + 10);
+            rect.setHeight(textoNivelGanado.getBoundsInLocal().getHeight() + 10);
 
-            gridPane.getChildren().addAll(rect, texto);
+            gridPane.add(rect, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
+            GridPane.setHalignment(rect, HPos.CENTER);
+            GridPane.setValignment(rect, VPos.CENTER);
+
+            gridPane.add(textoNivelGanado, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
+            GridPane.setHalignment(textoNivelGanado, HPos.CENTER);
+            GridPane.setValignment(textoNivelGanado, VPos.CENTER);
         }
     }
 

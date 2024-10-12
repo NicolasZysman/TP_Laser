@@ -1,4 +1,4 @@
-package juego.App;
+package juego.app;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
