@@ -2,6 +2,7 @@ package juego;
 
 import javafx.util.Pair;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Grilla {
@@ -9,15 +10,15 @@ public class Grilla {
     private final int columna;
     private final Celda[][] matriz;
     private final ArrayList<Emisor> emisores;
-    private final ArrayList<String> posiciones;
-    private final ArrayList<int[]> finales;
+    private final ArrayList<String> datos_laser;
+    private final ArrayList<Point> finales;
 
-    public Grilla(ArrayList<String> lineas, ArrayList<String> posiciones, int fila, int columna) {
+    public Grilla(ArrayList<String> lineas, ArrayList<String> datos_laser, int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
         this.matriz = new Celda[this.fila][this.columna];
         this.emisores = new ArrayList<>();
-        this.posiciones = posiciones;
+        this.datos_laser = datos_laser;
         this.finales = new ArrayList<>();
         inicializarMatriz(lineas);
         inicializarLaser();
@@ -69,9 +70,13 @@ public class Grilla {
 
     public int getColumna() { return columna; }
 
+    public ArrayList<String> getDatos_laser() {
+        return this.datos_laser;
+    }
+
     private void inicializarLaser() {
-        for (String posicion : posiciones) {
-            String[] partes = posicion.split(" ");
+        for (String datos : datos_laser) {
+            String[] partes = datos.split(" ");
             char tipo = partes[0].charAt(0);
             int y = Integer.parseInt(partes[1]);
             int x = Integer.parseInt(partes[2]);
@@ -79,7 +84,7 @@ public class Grilla {
             if (tipo == 'E') {
                 this.emisores.add(new Emisor(x, y, partes[3], this));
             } else {
-                finales.add(new int[] {x, y});
+                finales.add(new Point(x, y));
             }
 
             if (tipo == 'G') {
@@ -90,8 +95,8 @@ public class Grilla {
         }
     }
 
-    public ArrayList<Pair<Integer, Integer>> devolverPosicionesLaser() {
-        ArrayList<Pair<Integer, Integer>> posiciones = new ArrayList<>();
+    public ArrayList<Pair<Double, Double>> devolverPosicionesLaser() {
+        ArrayList<Pair<Double, Double>> posiciones = new ArrayList<>();
         for (Emisor emisor : emisores) {
             Laser laser_actual = emisor.getPrimerLaser();
             recorrerLaser(posiciones, laser_actual);
@@ -100,12 +105,12 @@ public class Grilla {
         return posiciones;
     }
 
-    private void recorrerLaser(ArrayList<Pair<Integer, Integer>> posiciones, Laser actual) {
+    private void recorrerLaser(ArrayList<Pair<Double, Double>> posiciones, Laser actual) {
         if (actual == null) {
             return;
         }
 
-        Pair<Integer, Integer> posicion_inicial = new Pair<>(actual.getPosicionInicial()[0], actual.getPosicionInicial()[1]);
+        Pair<Double, Double> posicion_inicial = new Pair<>(actual.getPosicionInicial().getX(), actual.getPosicionInicial().getY());
         posiciones.add(posicion_inicial);
         recorrerLaser(posiciones, actual.getSiguiente());
         recorrerLaser(posiciones, actual.getAlternativo());

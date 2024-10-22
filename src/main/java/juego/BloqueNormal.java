@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.*;
+
 public class BloqueNormal implements Bloque {
     private final boolean vacio;
 
@@ -23,9 +25,9 @@ public class BloqueNormal implements Bloque {
     }
 
     @Override
-    public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
-        int x = posicion_inicial[0];
-        int y = posicion_inicial[1];
+    public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
+        int x = (int) posicion_inicial.getX();
+        int y = (int) posicion_inicial.getY();
 
         if (direccion.startsWith("S")) {
             x += 1;

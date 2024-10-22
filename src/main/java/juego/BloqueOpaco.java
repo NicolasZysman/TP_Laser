@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.*;
+
 public class BloqueOpaco implements Bloque {
     private final boolean es_movible;
 
@@ -23,7 +25,7 @@ public class BloqueOpaco implements Bloque {
     }
 
     @Override
-    public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
+    public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
         return null;
     }
 }

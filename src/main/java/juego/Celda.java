@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.*;
+
 public class Celda {
     public Bloque bloque;
     public char identificador;
@@ -30,7 +32,7 @@ public class Celda {
         }
     }
 
-    public String[] interactuar(int[] posicion_inicial, String direccion) {
+    public String[] interactuar(Point posicion_inicial, String direccion) {
         return this.bloque.interactuarConLaser(posicion_inicial, direccion);
     }
 }

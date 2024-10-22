@@ -1,7 +1,9 @@
 package juego.app;
 
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -49,11 +51,17 @@ public class VistaControlador {
     }
 
     private void resetearNivel(int nivel) {
-        if (juego.getNiveles().isEmpty()) {
-            juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
-        } else {
+        if (!juego.getNiveles().isEmpty()) {
             juego.getNiveles().removeFirst();
-            juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"));
+        }
+
+        if (!juego.crearNivel(new File("../../resources/levels/level" + nivel + ".dat"))) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Hubo un error en la lectura del archivo");
+            alert.showAndWait();
+            Platform.exit();
         }
     }
 
@@ -88,7 +96,7 @@ public class VistaControlador {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        ArrayList<Pair<Integer, Integer>> posicionesLaser = grilla.devolverPosicionesLaser();
+        ArrayList<Pair<Double, Double>> posicionesLaser = grilla.devolverPosicionesLaser();
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -97,7 +105,7 @@ public class VistaControlador {
 
                 if (celda.identificador == 'E') {
                     componentesVista.getGridPane().add(pane, j, i);
-                } else if (posicionesLaser.contains(new Pair<>(i, j))) {
+                } else if (posicionesLaser.contains(new Pair<>((double) i, (double) j))) {
                     Rectangle rect = new Rectangle(40, 40, Color.RED);
                     componentesVista.getGridPane().add(rect, j, i);
                 } else {

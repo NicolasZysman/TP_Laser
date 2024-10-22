@@ -10,9 +10,15 @@ public class Juego {
         this.niveles = new ArrayList<>();
     }
 
-    public void crearNivel(File informacion) {
+    public boolean crearNivel(File informacion) {
         Nivel nivel_actual = new Nivel(informacion);
-        niveles.add(nivel_actual);
+
+        if (nivel_actual.nivelCreadoConExito()) {
+            niveles.add(nivel_actual);
+            return true;
+        }
+
+        return false;
     }
 
     public Nivel getNivel(int numero) {

@@ -1,27 +1,27 @@
 package juego;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Emisor {
     private final Laser primer_laser;
 
     public Emisor(int x, int y, String direccion, Grilla grilla) {
-        this.primer_laser = new Laser(new int[] {x, y}, direccion, grilla);
+        this.primer_laser = new Laser(new Point(x, y), direccion, grilla);
     }
 
     public Laser getPrimerLaser() {
         return this.primer_laser;
     }
 
-    public int contarObjetivosCompletados(Laser actual, ArrayList<int[]> finales) {
+    public int contarObjetivosCompletados(Laser actual, ArrayList<Point> finales) {
         int contador = 0;
         if (actual == null) {
             return contador;
         }
 
-        for (int[] finalPosicion : finales) {
-            if (Arrays.equals(finalPosicion, actual.getPosicionFinal())) {
+        for (Point finalPosicion : finales) {
+            if (finalPosicion.equals(actual.getPosicionFinal())) {
                 contador++;
             }
         }

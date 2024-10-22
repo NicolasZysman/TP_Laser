@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.*;
+
 public class BloqueVidrio implements Bloque {
 
     @Override
@@ -18,7 +20,7 @@ public class BloqueVidrio implements Bloque {
     }
 
     @Override
-    public String[] interactuarConLaser(int[] posicion_inicial, String direccion) {
+    public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
         BloqueNormal primera_direccion = new BloqueNormal(false);
         BloqueEspejo segunda_direccion = new BloqueEspejo();
 
