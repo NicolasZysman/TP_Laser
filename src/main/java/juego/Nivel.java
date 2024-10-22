@@ -6,17 +6,16 @@ import java.util.Objects;
 
 public class Nivel {
     public Grilla grilla;
-    private final ArrayList<String> datos;
 
     public Nivel(File informacion) {
-        this.datos = getLineas(informacion);
-        int[] fila_y_columna = getFilasColumnas();
+        ArrayList<String> datos = getLineas(informacion);
+        int[] fila_y_columna = getFilasColumnas(datos);
         int filas = fila_y_columna[0];
         int columnas = fila_y_columna[1];
-        ArrayList<String> posiciones = getPosiciones(filas);
+        ArrayList<String> datos_laser = getDatosLaser(filas, datos);
         filas = (filas * 2) + 1;
         columnas = (columnas * 2) + 1;
-        this.grilla = new Grilla(datos, posiciones, filas, columnas);
+        this.grilla = new Grilla(datos, datos_laser, filas, columnas);
     }
 
     private ArrayList<String> getLineas(File archivo) {
@@ -32,14 +31,14 @@ public class Nivel {
                 }
                 lineas.add(linea);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException _) {
+
         }
 
         return lineas;
     }
 
-    private int[] getFilasColumnas() {
+    private int[] getFilasColumnas(ArrayList<String> datos) {
         int fila = 0;
         int columna = 0;
         for (String elemento : datos) {
@@ -56,7 +55,10 @@ public class Nivel {
         return new int[]{fila, columna};
     }
 
-    private ArrayList<String> getPosiciones(int filas) {
+    private ArrayList<String> getDatosLaser(int filas, ArrayList<String> datos) {
+        if (datos.isEmpty()) {
+            return new ArrayList<>() {};
+        }
 
         ArrayList<String> posiciones = new ArrayList<>(datos.subList(filas, datos.size()));
 
@@ -91,5 +93,11 @@ public class Nivel {
 
     public boolean nivelTerminado() {
         return grilla.objetivosCompletados();
+    }
+
+    public boolean nivelCreadoConExito(){
+        ArrayList<String> posiciones = this.grilla.getDatos_laser();
+
+        return !posiciones.isEmpty();
     }
 }

@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.*;
+
 public interface Bloque {
 
     boolean bloqueVacio();
@@ -8,5 +10,5 @@ public interface Bloque {
 
     boolean movible();
 
-    String[] interactuarConLaser(int[] posicion_inicial, String direccion);
+    String[] interactuarConLaser(Point posicion_inicial, String direccion);
 }

@@ -1,13 +1,15 @@
 package juego;
 
+import java.awt.*;
+
 public class Laser {
-    private final int[] posicion_inicial;
-    private final int[] posicion_final;
+    private final Point posicion_inicial;
+    private final Point posicion_final;
     private final Grilla grilla;
     private final Laser siguiente;
     private final Laser alternativo;
 
-    public Laser(int[] posicion_inicial, String direccion, Grilla grilla) {
+    public Laser(Point posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
         this.grilla = grilla;
         String[] nueva_posicion = verificarBloque(direccion);
@@ -21,11 +23,11 @@ public class Laser {
         } else {
             x = Integer.parseInt(nueva_posicion[0]);
             y = Integer.parseInt(nueva_posicion[1]);
-            this.posicion_final = new int[] {x, y};
-            this.siguiente = new Laser(new int[] {x, y}, nueva_posicion[2], grilla);
+            this.posicion_final = new Point(x, y);
+            this.siguiente = new Laser(new Point(x, y), nueva_posicion[2], grilla);
 
             if (nueva_posicion.length > 3) {
-                this.alternativo = new Laser(new int[] {posicion_inicial[0], posicion_inicial[1]}, nueva_posicion[5], grilla);
+                this.alternativo = new Laser(new Point((int) posicion_inicial.getX(), (int) posicion_inicial.getY()), nueva_posicion[5], grilla);
             } else {
                 this.alternativo = null;
             }
@@ -34,17 +36,17 @@ public class Laser {
 
     private String[] verificarBloque(String direccion) {
         Celda celda_del_medio;
-        if (posicion_inicial[0] % 2 == 0) {
+        if (posicion_inicial.getX() % 2 == 0) {
             if (direccion.startsWith("S")) {
-                celda_del_medio = grilla.getCelda(posicion_inicial[0]+1, posicion_inicial[1]);
+                celda_del_medio = grilla.getCelda((int) (posicion_inicial.getX()+1), (int) posicion_inicial.getY());
             } else {
-                celda_del_medio = grilla.getCelda(posicion_inicial[0]-1, posicion_inicial[1]);
+                celda_del_medio = grilla.getCelda((int) (posicion_inicial.getX()-1), (int) posicion_inicial.getY());
             }
         } else {
             if (direccion.endsWith("E")) {
-                celda_del_medio = grilla.getCelda(posicion_inicial[0], posicion_inicial[1]+1);
+                celda_del_medio = grilla.getCelda((int) posicion_inicial.getX(), (int) (posicion_inicial.getY()+1));
             } else {
-                celda_del_medio = grilla.getCelda(posicion_inicial[0], posicion_inicial[1]-1);
+                celda_del_medio = grilla.getCelda((int) posicion_inicial.getX(), (int) (posicion_inicial.getY()-1));
             }
         }
 
@@ -55,11 +57,11 @@ public class Laser {
         return celda_del_medio.interactuar(this.posicion_inicial, direccion);
     }
 
-    public int[] getPosicionInicial() {
+    public Point getPosicionInicial() {
         return this.posicion_inicial;
     }
 
-    public int[] getPosicionFinal() {
+    public Point getPosicionFinal() {
         return this.posicion_final;
     }
 
