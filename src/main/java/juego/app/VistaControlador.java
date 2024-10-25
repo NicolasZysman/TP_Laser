@@ -3,19 +3,21 @@ package juego.app;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import juego.Grilla;
 import juego.Juego;
 import juego.Celda;
-import javafx.util.Pair;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -96,30 +98,78 @@ public class VistaControlador {
         int filas = grilla.getFila();
         int columnas = grilla.getColumna();
 
-        ArrayList<Pair<Double, Double>> posicionesLaser = grilla.devolverPosicionesLaser();
-
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 Celda celda = grilla.getCelda(i, j);
-                StackPane pane = crearCelda(celda, i, j);
+                Group group = crearCelda(celda, i, j);
 
-                if (celda.identificador == 'E') {
-                    componentesVista.getGridPane().add(pane, j, i);
-                } else if (posicionesLaser.contains(new Pair<>((double) i, (double) j))) {
-                    Rectangle rect = new Rectangle(40, 40, Color.RED);
-                    componentesVista.getGridPane().add(rect, j, i);
-                } else {
-                    componentesVista.getGridPane().add(pane, j, i);
+                if (i % 2 != 0 && j % 2 != 0) {
+                    componentesVista.getGridPane().add(group, j, i);
+                    char bloqueAnterior = tieneLaserAAID(grilla,i , j);
+                    if (tieneLaserAAID(grilla,i, j) != '\0') {
+                        Line linea = new Line(0,0,40,40);
+                        linea.setStrokeWidth(3);
+                        linea.setStroke(Color.RED);
+                        if (celda.identificador == 'R') {
+                            if (bloqueAnterior == 'N') {
+                                componentesVista.getGridPane().add(linea, j, i-2);
+                            } else if (bloqueAnterior == 'E') {
+                                componentesVista.getGridPane().add(linea, j + 2, i);
+                            } else if (bloqueAnterior == 'O') {
+                                componentesVista.getGridPane().add(linea, j - 2, i);
+                            } else {
+                                componentesVista.getGridPane().add(linea, j, i + 2);
+                            }
+                        }
+                        else if (celda.identificador != 'F') {
+                            componentesVista.getGridPane().add(linea, j, i);
+                        }
+                    }
+                } else if (celda.identificador == 'E') {
+                    Circle circle = new Circle(7, Color.RED);
+                    group.getChildren().add(circle);
+                    componentesVista.getGridPane().add(circle, j, i);
+                    circle.toFront();
                 }
             }
         }
     }
 
-    private StackPane crearCelda(Celda celda, int fila, int columna) {
+    private char tieneLaserAAID(Grilla grilla, int iPosicion, int jPosicion) {
+        ArrayList<Pair<Double, Double>> posicionesLaser = grilla.devolverPosicionesLaser();
+        char direccion = ' ';
+
+        for (int k = 0; k < 4; k++) {
+            int x, y = 0;
+            if (k == 0){
+                x = iPosicion - 1;
+                y = jPosicion;
+                direccion = 'N';
+            } else if (k == 1) {
+                x = iPosicion;
+                y = jPosicion + 1;
+                direccion = 'E';
+            } else if (k == 2) {
+                x = iPosicion + 1;
+                y = jPosicion;
+                direccion = 'S';
+            } else {
+                x = iPosicion;
+                y = jPosicion - 1;
+                direccion = 'O';
+            }
+
+            if (posicionesLaser.contains(new Pair<>((double) x, (double) y))) {return direccion;}
+        }
+
+        return '\0';
+    }
+
+    private Group crearCelda(Celda celda, int fila, int columna) {
         VistaCelda vistaCelda = new VistaCelda(celda, fila, columna);
-        StackPane pane = vistaCelda.getPane();
-        pane.setOnMouseClicked(_ -> handleClickCelda(fila, columna));
-        return pane;
+        Group group = vistaCelda.getGroup();
+        group.setOnMouseClicked(_ -> handleClickCelda(fila, columna));
+        return group;
     }
 
     private void handleClickCelda(int fila, int columna) {

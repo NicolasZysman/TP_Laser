@@ -1,6 +1,7 @@
 package juego.app;
 
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -13,9 +14,11 @@ public class ComponentesVista {
     private final Stage stage;
     private final GridPane gridPane;
     private final VBox botonNiveles;
+    private final Group group;
 
     public ComponentesVista(Stage stage) {
         this.stage = stage;
+        this.group = new Group();
         this.gridPane = new GridPane();
         this.botonNiveles = new VBox(10);
 
@@ -26,12 +29,14 @@ public class ComponentesVista {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setGridLinesVisible(false);
 
+        group.getChildren().add(gridPane);
+
         botonNiveles.setAlignment(Pos.TOP_LEFT);
         crearBotonesNiveles();
 
         BorderPane root = new BorderPane();
         root.setLeft(botonNiveles);
-        root.setCenter(gridPane);
+        root.setCenter(group);
 
         Scene scene = new Scene(root, 800, 600, Color.BLACK);
         stage.setTitle("Laser");
@@ -50,6 +55,8 @@ public class ComponentesVista {
     public GridPane getGridPane() {
         return gridPane;
     }
+
+    public Group getGroupGrande() { return group; }
 
     public VBox getLevelButtons() {
         return botonNiveles;
