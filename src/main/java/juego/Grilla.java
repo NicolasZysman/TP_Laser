@@ -110,8 +110,9 @@ public class Grilla {
 
     public boolean objetivosCompletados() {
         int contador = 0;
+        ArrayList<Point> finalesObtenidos = new ArrayList<>();
         for (Emisor emisor : emisores) {
-            contador += emisor.contarObjetivosCompletados(emisor.getPrimerLaser(), finales);
+            contador += emisor.contarObjetivosCompletados(emisor.getPrimerLaser(), finales, finalesObtenidos);
         }
 
         return contador == finales.size();

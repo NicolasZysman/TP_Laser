@@ -14,20 +14,21 @@ public class Emisor {
         return this.primer_laser;
     }
 
-    public int contarObjetivosCompletados(Laser actual, ArrayList<Point> finales) {
+    public int contarObjetivosCompletados(Laser actual, ArrayList<Point> finales, ArrayList<Point> finalesObtenidos) {
         int contador = 0;
-        if (actual == null) {
+        if (actual == null)
             return contador;
-        }
 
         for (Point finalPosicion : finales) {
-            if (finalPosicion.equals(actual.getPosicionFinal())) {
+            Point objetivo = actual.getPosicionFinal();
+            if (finalPosicion.equals(objetivo) && !finalesObtenidos.contains(objetivo)) {
+                finalesObtenidos.add(objetivo);
                 contador++;
             }
         }
         
-        contador += contarObjetivosCompletados(actual.getSiguiente(), finales);
-        contador += contarObjetivosCompletados(actual.getAlternativo(), finales);
+        contador += contarObjetivosCompletados(actual.getSiguiente(), finales, finalesObtenidos);
+        contador += contarObjetivosCompletados(actual.getAlternativo(), finales, finalesObtenidos);
         
         return contador;
     }
