@@ -5,6 +5,7 @@ import java.awt.*;
 public class Laser {
     private final Point posicion_inicial;
     private final Point posicion_final;
+    private final String direccion;
     private final Grilla grilla;
     private final Laser siguiente;
     private final Laser alternativo;
@@ -20,9 +21,11 @@ public class Laser {
             this.posicion_final = null;
             this.siguiente = null;
             this.alternativo = null;
+            this.direccion = null;
         } else {
             x = Integer.parseInt(nueva_posicion[0]);
             y = Integer.parseInt(nueva_posicion[1]);
+            this.direccion = nueva_posicion[2];
             this.posicion_final = new Point(x, y);
             this.siguiente = new Laser(new Point(x, y), nueva_posicion[2], grilla);
 
@@ -36,6 +39,10 @@ public class Laser {
 
     private String[] verificarBloque(String direccion) {
         Celda celda_del_medio;
+
+        if (direccion.startsWith("|") || direccion.endsWith("|"))
+            direccion = direccion.replace("|", "");
+
         if (posicion_inicial.getX() % 2 == 0) {
             if (direccion.startsWith("S")) {
                 celda_del_medio = grilla.getCelda((int) (posicion_inicial.getX()+1), (int) posicion_inicial.getY());
@@ -72,4 +79,6 @@ public class Laser {
     public Laser getAlternativo() {
         return this.alternativo;
     }
+
+    public String getDireccion() {return this.direccion;}
 }

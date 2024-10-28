@@ -56,8 +56,6 @@ public class ComponentesVista {
         return gridPane;
     }
 
-    public Group getGroupGrande() { return group; }
-
     public VBox getLevelButtons() {
         return botonNiveles;
     }

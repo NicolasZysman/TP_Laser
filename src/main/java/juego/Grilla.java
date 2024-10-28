@@ -1,7 +1,5 @@
 package juego;
 
-import javafx.util.Pair;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -95,27 +93,6 @@ public class Grilla {
         }
     }
 
-    public ArrayList<Pair<Double, Double>> devolverPosicionesLaser() {
-        ArrayList<Pair<Double, Double>> posiciones = new ArrayList<>();
-        for (Emisor emisor : emisores) {
-            Laser laser_actual = emisor.getPrimerLaser();
-            recorrerLaser(posiciones, laser_actual);
-        }
-
-        return posiciones;
-    }
-
-    private void recorrerLaser(ArrayList<Pair<Double, Double>> posiciones, Laser actual) {
-        if (actual == null) {
-            return;
-        }
-
-        Pair<Double, Double> posicion_inicial = new Pair<>(actual.getPosicionInicial().getX(), actual.getPosicionInicial().getY());
-        posiciones.add(posicion_inicial);
-        recorrerLaser(posiciones, actual.getSiguiente());
-        recorrerLaser(posiciones, actual.getAlternativo());
-    }
-
     public void intercambiar(Celda bloque1, Celda bloque2) {
         char indentificador_auxiliar = bloque1.identificador;
         Bloque bloque_auxiliar = bloque1.bloque;
@@ -139,4 +116,10 @@ public class Grilla {
 
         return contador == finales.size();
     }
+
+    public ArrayList<Point> getFinales(){
+        return this.finales;
+    }
+
+    public ArrayList<Emisor> getEmisores() {return this.emisores;}
 }

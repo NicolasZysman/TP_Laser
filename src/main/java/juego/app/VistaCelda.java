@@ -75,7 +75,11 @@ public class VistaCelda {
         group.getChildren().add(rect);
     }
 
-    public Group getGroup() {
-        return group;
+    public Group getGroup(int x, int y) {
+        if (x == fila && y == columna)
+            return group;
+
+        return null;
     }
 }
+

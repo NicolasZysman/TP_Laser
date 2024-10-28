@@ -79,7 +79,6 @@ public class Nivel {
 
         grilla.intercambiar(bloque1, bloque2);
         grilla.regenerarLaser();
-        grilla.devolverPosicionesLaser();
     }
 
     private boolean posicionesInvalidas(int[] posicion_bloque, int[] nueva_posicion) {
