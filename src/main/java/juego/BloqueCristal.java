@@ -1,25 +1,16 @@
 package juego;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BloqueCristal implements Bloque {
-    @Override
-    public boolean bloqueVacio() {
-        return false;
-    }
-
-    @Override
-    public boolean esUnBloqueNormal() {
-        return false;
-    }
-
     @Override
     public boolean movible() {
         return true;
     }
 
     @Override
-    public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
+    public ArrayList<String> interactuarConLaser(Point posicion_inicial, String direccion) {
         int x = (int) posicion_inicial.getX();
         int y = (int) posicion_inicial.getY();
         String direccion_alterada;
@@ -40,6 +31,11 @@ public class BloqueCristal implements Bloque {
             direccion_alterada = "|" + direccion;
         }
 
-        return new String[] {String.valueOf(x), String.valueOf(y), direccion_alterada};
+        ArrayList<String> nueva_posicion = new ArrayList<>();
+        nueva_posicion.add(String.valueOf(x));
+        nueva_posicion.add(String.valueOf(y));
+        nueva_posicion.add(direccion_alterada);
+
+        return nueva_posicion;
     }
 }

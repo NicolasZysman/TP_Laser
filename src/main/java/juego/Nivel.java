@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -67,27 +68,17 @@ public class Nivel {
         return posiciones;
     }
 
-    public void intercambiarBloques(int[] posicion_bloque, int[] nueva_posicion) {
-        Celda bloque1 = grilla.getCelda(posicion_bloque[0], posicion_bloque[1]);
-        Bloque tipo_bloque1 = bloque1.bloque;
-        Celda bloque2 = grilla.getCelda(nueva_posicion[0], nueva_posicion[1]);
-        Bloque tipo_bloque2 = bloque2.bloque;
+    public void intercambiarBloques(Point posicion_bloque, Point nueva_posicion) {
+        Celda origen = grilla.getCelda((int) posicion_bloque.getX(), (int) posicion_bloque.getY());
+        Bloque bloque_origen = origen.bloque;
+        Celda destino = grilla.getCelda((int) nueva_posicion.getX(), (int) nueva_posicion.getY());
 
-        if (posicionesInvalidas(posicion_bloque, nueva_posicion) || !tipo_bloque1.movible() || tipo_bloque1.esUnBloqueNormal() || !tipo_bloque2.esUnBloqueNormal() || tipo_bloque2.bloqueVacio()) {
+        if ((bloque_origen != null && !bloque_origen.movible()) || !origen.celdaOcupada() || destino.celdaOcupada() || destino.celdaVacia()) {
             return;
         }
 
-        grilla.intercambiar(bloque1, bloque2);
+        grilla.intercambiar(origen, destino);
         grilla.regenerarLaser();
-    }
-
-    private boolean posicionesInvalidas(int[] posicion_bloque, int[] nueva_posicion) {
-        int x1 = posicion_bloque[0];
-        int y1 = posicion_bloque[1];
-        int x2 = nueva_posicion[0];
-        int y2 = nueva_posicion[1];
-
-        return x1 % 2 == 0 || y1 % 2 == 0 || x2 % 2 == 0 || y2 % 2 == 0;
     }
 
     public boolean nivelTerminado() {
@@ -95,7 +86,7 @@ public class Nivel {
     }
 
     public boolean nivelCreadoConExito(){
-        ArrayList<String> posiciones = this.grilla.getDatos_laser();
+        ArrayList<String> posiciones = this.grilla.getDatoslaser();
 
         return !posiciones.isEmpty();
     }

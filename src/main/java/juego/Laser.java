@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Laser {
     private final Point posicion_inicial;
@@ -13,7 +14,7 @@ public class Laser {
     public Laser(Point posicion_inicial, String direccion, Grilla grilla) {
         this.posicion_inicial = posicion_inicial;
         this.grilla = grilla;
-        String[] nueva_posicion = verificarBloque(direccion);
+        ArrayList<String> nueva_posicion = verificarBloque(direccion);
         int x;
         int y;
 
@@ -23,21 +24,21 @@ public class Laser {
             this.alternativo = null;
             this.direccion = null;
         } else {
-            x = Integer.parseInt(nueva_posicion[0]);
-            y = Integer.parseInt(nueva_posicion[1]);
-            this.direccion = nueva_posicion[2];
+            x = Integer.parseInt(nueva_posicion.get(0));
+            y = Integer.parseInt(nueva_posicion.get(1));
+            this.direccion = nueva_posicion.get(2);
             this.posicion_final = new Point(x, y);
-            this.siguiente = new Laser(new Point(x, y), nueva_posicion[2], grilla);
+            this.siguiente = new Laser(new Point(x, y), nueva_posicion.get(2), grilla);
 
-            if (nueva_posicion.length > 3) {
-                this.alternativo = new Laser(new Point((int) posicion_inicial.getX(), (int) posicion_inicial.getY()), nueva_posicion[5], grilla);
+            if (nueva_posicion.size() > 3) {
+                this.alternativo = new Laser(new Point((int) posicion_inicial.getX(), (int) posicion_inicial.getY()), nueva_posicion.get(5), grilla);
             } else {
                 this.alternativo = null;
             }
         }
     }
 
-    private String[] verificarBloque(String direccion) {
+    private ArrayList<String> verificarBloque(String direccion) {
         Celda celda_del_medio;
 
         if (direccion.startsWith("|") || direccion.endsWith("|"))

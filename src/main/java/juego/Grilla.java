@@ -68,7 +68,7 @@ public class Grilla {
 
     public int getColumna() { return columna; }
 
-    public ArrayList<String> getDatos_laser() {
+    public ArrayList<String> getDatoslaser() {
         return this.datos_laser;
     }
 
@@ -93,13 +93,18 @@ public class Grilla {
         }
     }
 
-    public void intercambiar(Celda bloque1, Celda bloque2) {
-        char indentificador_auxiliar = bloque1.identificador;
-        Bloque bloque_auxiliar = bloque1.bloque;
-        bloque1.identificador = bloque2.identificador;
-        bloque1.bloque = bloque2.bloque;
-        bloque2.identificador = indentificador_auxiliar;
-        bloque2.bloque = bloque_auxiliar;
+    public void intercambiar(Celda origen, Celda destino) {
+        char indentificador_auxiliar = origen.identificador;
+        origen.identificador = destino.identificador;
+        destino.identificador = indentificador_auxiliar;
+
+        Bloque bloque_auxiliar = origen.bloque;
+        if (bloque_auxiliar != null) {
+            origen.bloque = destino.bloque;
+            destino.bloque = bloque_auxiliar;
+        }
+        origen.ocupado = false;
+        destino.ocupado = true;
     }
 
     public void regenerarLaser() {

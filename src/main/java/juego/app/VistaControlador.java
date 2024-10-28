@@ -8,6 +8,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 public class VistaControlador {
     private final Juego juego;
     private final ComponentesVista componentesVista;
-    private int[] posicionBloque;
+    private Point posicionBloque;
     private boolean bloqueSeleccionado = false;
     private final ArrayList<VistaCelda> celdas;
 
@@ -296,16 +297,36 @@ public class VistaControlador {
         VistaCelda vistaCelda = new VistaCelda(celda, fila, columna);
         Group group = vistaCelda.getGroup(fila, columna);
         this.celdas.add(vistaCelda);
-        group.setOnMouseClicked(_ -> handleClickCelda(fila, columna));
+
+        group.setOnDragDetected(e -> handleDragDetected(group, fila, columna, e));
+        group.setOnDragOver(this::handleDragOver);
+        group.setOnDragDropped(e -> handleDragDropped(fila, columna, e));
+
         return group;
     }
 
-    private void handleClickCelda(int fila, int columna) {
-        if (!bloqueSeleccionado) {
-            posicionBloque = new int[]{fila, columna};
-            bloqueSeleccionado = true;
-        } else {
-            int[] nuevaPosicion = {fila, columna};
+    private void handleDragDetected(Group group, int fila, int columna, MouseEvent e) {
+        posicionBloque = new Point(fila, columna);
+        bloqueSeleccionado = true;
+
+        Dragboard dragboard = group.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putString("Dragging Block");
+        dragboard.setContent(content);
+
+        e.consume();
+    }
+
+    private void handleDragOver(DragEvent e) {
+        if (e.getGestureSource() != e.getGestureTarget()) { // mira que no muevas al mismo lugar
+            e.acceptTransferModes(TransferMode.MOVE); // acepta moverlo
+        }
+        e.consume();
+    }
+
+    private void handleDragDropped(int fila, int columna, DragEvent e) {
+        if (bloqueSeleccionado) {
+            Point nuevaPosicion = new Point(fila, columna);
 
             if (!juego.nivelTermiando(1)) {
                 juego.moverBloque(posicionBloque, nuevaPosicion, 1);
@@ -313,7 +334,10 @@ public class VistaControlador {
             }
 
             bloqueSeleccionado = false;
+            posicionBloque = null;
         }
+        e.setDropCompleted(true);
+        e.consume();
     }
 }
 
