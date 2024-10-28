@@ -1,3 +1,5 @@
+
+
 package juego.app;
 
 import javafx.application.Platform;
@@ -73,25 +75,29 @@ public class VistaControlador {
         renderGrilla(grilla);
 
         if (juego.nivelTermiando(1)) {
-            Text textoNivelGanado = new Text("Nivel Ganado!");
-            textoNivelGanado.setFont(new Font(40));
-            textoNivelGanado.setFill(Color.WHITE);
-            textoNivelGanado.setOpacity(0.5);
-
-            Rectangle rect = new Rectangle();
-            rect.setFill(Color.GREEN);
-            rect.setOpacity(0.6);
-            rect.setWidth(textoNivelGanado.getBoundsInLocal().getWidth() + 10);
-            rect.setHeight(textoNivelGanado.getBoundsInLocal().getHeight() + 10);
-
-            gridPane.add(rect, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
-            GridPane.setHalignment(rect, HPos.CENTER);
-            GridPane.setValignment(rect, VPos.CENTER);
-
-            gridPane.add(textoNivelGanado, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
-            GridPane.setHalignment(textoNivelGanado, HPos.CENTER);
-            GridPane.setValignment(textoNivelGanado, VPos.CENTER);
+            mostrarNivelGanado(gridPane);
         }
+    }
+
+    private void mostrarNivelGanado(GridPane gridPane) {
+        Text textoNivelGanado = new Text("Nivel Ganado!");
+        textoNivelGanado.setFont(new Font(40));
+        textoNivelGanado.setFill(Color.WHITE);
+        textoNivelGanado.setOpacity(0.5);
+
+        Rectangle rect = new Rectangle();
+        rect.setFill(Color.GREEN);
+        rect.setOpacity(0.6);
+        rect.setWidth(textoNivelGanado.getBoundsInLocal().getWidth() + 10);
+        rect.setHeight(textoNivelGanado.getBoundsInLocal().getHeight() + 10);
+
+        gridPane.add(rect, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
+        GridPane.setHalignment(rect, HPos.CENTER);
+        GridPane.setValignment(rect, VPos.CENTER);
+
+        gridPane.add(textoNivelGanado, 0, 0, gridPane.getColumnCount(), gridPane.getRowCount());
+        GridPane.setHalignment(textoNivelGanado, HPos.CENTER);
+        GridPane.setValignment(textoNivelGanado, VPos.CENTER);
     }
 
     private void renderGrilla(Grilla grilla) {
@@ -115,82 +121,113 @@ public class VistaControlador {
         }
 
         for (Point objetivo : finales) {
-            int objetivoY = (int) objetivo.getY();
-            int objetivoX = (int) objetivo.getX();
-
-            Group grupoObjetivo = null;
-            Circle circle = new Circle(7, Color.RED);
-
-            if (objetivoY % 2 != 0) {
-                if (objetivoX == filas - 1) {
-                    objetivoX -= 1;
-                    circle.setLayoutX(40);
-                    circle.setLayoutY(80);
-                } else {
-                    objetivoX += 1;
-                    circle.setLayoutX(40);
-                    circle.setLayoutY(0);
-                }
-            } else {
-                if (objetivoY > 0) {
-                    objetivoY -= 1;
-                    circle.setLayoutX(80);
-                    circle.setLayoutY(40);
-                } else {
-                    objetivoY += 1;
-                    circle.setLayoutX(0);
-                    circle.setLayoutY(40);
-                }
-            }
-
-
-            for (int i=0; i < celdas.size() && grupoObjetivo == null; i++) {
-                grupoObjetivo = celdas.get(i).getGroup(objetivoX, objetivoY);
-            }
-
-            if (grupoObjetivo != null)
-                grupoObjetivo.getChildren().add(circle);
+            mostrarObjetios(objetivo, filas);
         }
 
         celdas.clear();
+    }
+
+    private void mostrarObjetios(Point objetivo, int filas) {
+        int objetivoY = (int) objetivo.getY();
+        int objetivoX = (int) objetivo.getX();
+
+        Group grupoObjetivo = null;
+        Circle circle = new Circle(7, Color.RED);
+
+        if (objetivoY % 2 != 0) {
+            if (objetivoX == filas - 1) {
+                objetivoX -= 1;
+                circle.setLayoutX(40);
+                circle.setLayoutY(80);
+            } else {
+                objetivoX += 1;
+                circle.setLayoutX(40);
+                circle.setLayoutY(0);
+            }
+        } else {
+            if (objetivoY > 0) {
+                objetivoY -= 1;
+                circle.setLayoutX(80);
+                circle.setLayoutY(40);
+            } else {
+                objetivoY += 1;
+                circle.setLayoutX(0);
+                circle.setLayoutY(40);
+            }
+        }
+
+
+        for (int i=0; i < celdas.size() && grupoObjetivo == null; i++) {
+            grupoObjetivo = celdas.get(i).getGroup(objetivoX, objetivoY);
+        }
+
+        if (grupoObjetivo != null)
+            grupoObjetivo.getChildren().add(circle);
     }
 
     private void mostrarLaser(Laser actual, boolean primer_laser) {
         if (actual == null)
             return;
 
-        int y1, y2, x1, x2;
-        String direccion_actual = actual.getDireccion();
-        Point posicion_inicial = actual.getPosicionInicial();
+        String direccionActual = actual.getDireccion();
+        Point posicionInicial = actual.getPosicionInicial();
 
-        if (direccion_actual == null)
+        if (direccionActual == null)
             return;
 
-        y1 = (int) posicion_inicial.getX();
-        x1 = (int) posicion_inicial.getY();
+        int y1 = (int) posicionInicial.getX();
+        int x1 = (int) posicionInicial.getY();
         // Estan invertidas las posiciones
 
-        Group grupo_actual = buscarGrupo(direccion_actual, x1, y1);
+        Group grupo_actual = buscarGrupo(direccionActual, x1, y1);
 
         Line linea = new Line();
         linea.setStrokeWidth(3);
         linea.setStroke(Color.RED);
 
-        if (y1 % 2 != 0) {
-            if (direccion_actual.endsWith("E"))
-                x1 = 0;
-            else x1 = 80;
+        Point posicionesIniciales = calcularX1Y1(y1, direccionActual);
+        y1 = (int) posicionesIniciales.getY();
+        x1 = (int) posicionesIniciales.getX();
 
-            y1 = 40;
-        } else {
-            if (direccion_actual.startsWith("S"))
-                y1 = 0;
-            else y1 = 80;
+        Point posicionesFinales = calcularX2Y2(y1, x1, direccionActual);
+        int y2 = (int) posicionesFinales.getY();
+        int x2 = (int) posicionesFinales.getX();
 
-            x1 = 40;
+        linea.setStartX(x1);
+        linea.setStartY(y1);
+        linea.setEndX(x2);
+        linea.setEndY(y2);
+
+        linea.toFront();
+
+        grupo_actual.getChildren().add(linea);
+
+        if (primer_laser) {
+            Circle circle = new Circle(7, Color.RED);
+            circle.setLayoutX(x1);
+            circle.setLayoutY(y1);
+            grupo_actual.getChildren().add(circle);
         }
 
-        switch (direccion_actual) {
+        mostrarLaser(actual.getSiguiente(), false);
+        mostrarLaser(actual.getAlternativo(), false);
+    }
+
+    private Point calcularX1Y1(int y1, String direccionActual) {
+        int x1;
+        if (y1 % 2 != 0) {
+            x1 = direccionActual.endsWith("E") ? 0 : 80;
+            y1 = 40;
+        } else {
+            y1 = direccionActual.startsWith("S") ? 0 : 80;
+            x1 = 40;
+        }
+        return new Point(x1, y1);
+    }
+
+    private Point calcularX2Y2(int y1, int x1, String direccionActual) {
+        int y2, x2;
+        switch (direccionActual) {
             case "SE" -> {
                 y2 = y1 + 40;
                 x2 = x1 + 40;
@@ -224,25 +261,7 @@ public class VistaControlador {
                 x2 = 0;
             }
         }
-
-        linea.setStartX(x1);
-        linea.setStartY(y1);
-        linea.setEndX(x2);
-        linea.setEndY(y2);
-
-        linea.toFront();
-
-        grupo_actual.getChildren().add(linea);
-
-        if (primer_laser) {
-            Circle circle = new Circle(7, Color.RED);
-            circle.setLayoutX(x1);
-            circle.setLayoutY(y1);
-            grupo_actual.getChildren().add(circle);
-        }
-
-        mostrarLaser(actual.getSiguiente(), false);
-        mostrarLaser(actual.getAlternativo(), false);
+        return new Point(x2, y2);
     }
 
     private Group buscarGrupo(String direccion, int x, int y) {
@@ -297,3 +316,4 @@ public class VistaControlador {
         }
     }
 }
+
