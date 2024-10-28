@@ -1,14 +1,11 @@
 package juego;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public interface Bloque {
 
-    boolean bloqueVacio();
-
-    boolean esUnBloqueNormal();
-
     boolean movible();
 
-    String[] interactuarConLaser(Point posicion_inicial, String direccion);
+    ArrayList<String> interactuarConLaser(Point posicion_inicial, String direccion);
 }

@@ -1,26 +1,16 @@
 package juego;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BloqueEspejo implements Bloque {
-
-    @Override
-    public boolean bloqueVacio() {
-        return false;
-    }
-
-    @Override
-    public boolean esUnBloqueNormal() {
-        return false;
-    }
-
     @Override
     public boolean movible() {
         return true;
     }
 
     @Override
-    public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
+    public ArrayList<String> interactuarConLaser(Point posicion_inicial, String direccion) {
         String nueva_direccion;
         int x = (int) posicion_inicial.getX();
         int y = (int) posicion_inicial.getY();
@@ -73,7 +63,12 @@ public class BloqueEspejo implements Bloque {
             }
         }
 
-        return new String[] {String.valueOf(x), String.valueOf(y), nueva_direccion};
+        ArrayList<String> nueva_posicion = new ArrayList<>();
+        nueva_posicion.add(String.valueOf(x));
+        nueva_posicion.add(String.valueOf(y));
+        nueva_posicion.add(nueva_direccion);
+
+        return nueva_posicion;
     }
 
 

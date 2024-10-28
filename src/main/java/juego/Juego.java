@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class Juego {
         return this.niveles;
     }
 
-    public void moverBloque(int[] posicion_bloque, int[] nueva_posicion, int numero_nivel) {
+    public void moverBloque(Point posicion_bloque, Point nueva_posicion, int numero_nivel) {
         Nivel nivel_actual = niveles.get(numero_nivel-1);
         nivel_actual.intercambiarBloques(posicion_bloque, nueva_posicion);
     }
