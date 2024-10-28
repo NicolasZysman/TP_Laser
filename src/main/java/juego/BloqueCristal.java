@@ -22,6 +22,7 @@ public class BloqueCristal implements Bloque {
     public String[] interactuarConLaser(Point posicion_inicial, String direccion) {
         int x = (int) posicion_inicial.getX();
         int y = (int) posicion_inicial.getY();
+        String direccion_alterada;
 
         if (x % 2 == 0) {
             if (direccion.startsWith("S")) {
@@ -29,14 +30,16 @@ public class BloqueCristal implements Bloque {
             } else {
                 x -= 2;
             }
+            direccion_alterada = direccion + "|";
         } else {
             if (direccion.endsWith("E")) {
                 y += 2;
             } else {
                 y -= 2;
             }
+            direccion_alterada = "|" + direccion;
         }
 
-        return new String[] {String.valueOf(x), String.valueOf(y), direccion};
+        return new String[] {String.valueOf(x), String.valueOf(y), direccion_alterada};
     }
 }
